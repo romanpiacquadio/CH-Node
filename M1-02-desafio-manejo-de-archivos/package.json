@@ -1,0 +1,13 @@
+{
+  "name": "m1-02-desafio-manejodearchivos",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "ProductManager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
