@@ -1,23 +1,8 @@
 import fs from 'fs'
 
-const path = './files/products.json'
+const path = '../M1-02-desafio-manejo-de-archivos/files/products.json'
 
 export default class ProductManager {
-
-  addProduct = async (product) => {
-    const products = await this.getProducts()
-    
-    let id;
-
-    if(products.length === 0) {
-        id = 1
-    } else {
-        id = products[products.length-1].id + 1
-    }
-
-    products.push({id, ...product})
-    await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
-  }
 
   getProducts = async () => {
     if(fs.existsSync(path)) {
@@ -36,6 +21,22 @@ export default class ProductManager {
 
     return productSearched || `No existing product with id: ${id}`
 
+  }
+
+  addProduct = async (product) => {
+    const products = await this.getProducts()
+    
+    let id;
+
+    if(products.length === 0) {
+        id = 1
+    } else {
+        id = products[products.length-1].id + 1
+    }
+
+    products.push({id, ...product})
+
+    await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'))
   }
 
   updateProduct = async (updatedProduct) => {
@@ -63,43 +64,44 @@ export default class ProductManager {
 }
 
 
-const productos = new ProductManager();
+// const productos = new ProductManager();
 
-const env = async () => {
-  console.log(await productos.getProducts());
 
-  const newProduct = {
-    title: 'producto prueba',
-    description: 'Este es un producto prueba',
-    price: 200,
-    thumbnail: 'Sin imagen',
-    code: 'abc123',
-    stock: 25
-  };
+// const env = async () => {
+//   console.log(await productos.getProducts());
 
-  await productos.addProduct(newProduct); // Agregamos un producto
-  await productos.addProduct(newProduct); // Agregamos un producto
-  await productos.addProduct(newProduct); // Agregamos un producto
+//   const newProduct = {
+//     title: 'producto prueba',
+//     description: 'Este es un producto prueba',
+//     price: 200,
+//     thumbnail: 'Sin imagen',
+//     code: 'abc123',
+//     stock: 25
+//   };
 
-  console.log(await productos.getProducts()); // Mostramos todos los productos 
-  console.log(await productos.getProductById(10)); // Mostramos un producto
+//   await productos.addProduct(newProduct); // Agregamos un producto
+//   await productos.addProduct(newProduct); // Agregamos un producto
+//   await productos.addProduct(newProduct); // Agregamos un producto
 
-  // await productos.updateProduct({         // Actualizamos un producto
-  //   id: 1,
-  //   title: 'producto prueba MODIFICADO',
-  //   description: 'Este es un producto prueba',
-  //   price: 200,
-  //   thumbnail: 'Sin imagen',
-  //   code: 'abc123',
-  //   stock: 25
-  // })
+//   console.log(await productos.getProducts()); // Mostramos todos los productos 
+//   console.log(await productos.getProductById(10)); // Mostramos un producto
 
-  // console.log(await productos.getProductById(1)) // Mostramos prod modificado
+//   // await productos.updateProduct({         // Actualizamos un producto
+//   //   id: 1,
+//   //   title: 'producto prueba MODIFICADO',
+//   //   description: 'Este es un producto prueba',
+//   //   price: 200,
+//   //   thumbnail: 'Sin imagen',
+//   //   code: 'abc123',
+//   //   stock: 25
+//   // })
 
-  // await productos.deleteProduct(3)               // Borramos un producto
+//   // console.log(await productos.getProductById(1)) // Mostramos prod modificado
 
-  // console.log( await productos.getProducts() )   // Mostramos todos los prod
+//   // await productos.deleteProduct(3)               // Borramos un producto
 
-};
+//   // console.log( await productos.getProducts() )   // Mostramos todos los prod
 
-env();
+// };
+
+// env();

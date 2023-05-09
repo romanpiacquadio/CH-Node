@@ -1,0 +1,23 @@
+[
+	{
+		"nombre": "Roman",
+		"apellido": "Piacquadio",
+		"edad": 31,
+		"curso": "Backend",
+		"id": 1
+	},
+	{
+		"nombre": "Roman",
+		"apellido": "Piacquadio",
+		"edad": 31,
+		"curso": "Backend",
+		"id": 2
+	},
+	{
+		"nombre": "Nicolas",
+		"apellido": "Varveri",
+		"edad": 36,
+		"curso": "Backend",
+		"id": 3
+	}
+]
