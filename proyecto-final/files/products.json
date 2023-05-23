@@ -1,0 +1,62 @@
+[
+	{
+		"id": "7128e4ba-a980-4678-82b3-4281f03cb105",
+		"title": "Producto 1",
+		"description": "Esta es la descripcion del prod 1",
+		"code": "abc123xyz",
+		"price": 10000,
+		"status": true,
+		"stock": 62,
+		"category": "electronics",
+		"thumbnails": [
+			"https://foto1",
+			"https://foto2",
+			"https://foto3"
+		]
+	},
+	{
+		"id": "6d435993-242c-4e09-8a09-628fb9c82c94",
+		"title": "Producto 2",
+		"description": "Esta es la descripcion del prod 2",
+		"code": "abc123xyz",
+		"price": 10000,
+		"status": true,
+		"stock": 62,
+		"categor": "electronics",
+		"thumbnails": [
+			"https://foto1",
+			"https://foto2",
+			"https://foto3"
+		]
+	},
+	{
+		"id": "4700c6da-b209-4372-81ff-e1e80c22b6df",
+		"title": "Producto 3",
+		"description": "Esta es la descripcion del prod 3",
+		"code": "abc123xyz",
+		"price": 10000,
+		"status": true,
+		"stock": 62,
+		"category": "electronics",
+		"thumbnails": [
+			"https://foto1",
+			"https://foto2",
+			"https://foto3"
+		]
+	},
+	{
+		"id": "11f3e24a-2cd8-4359-b238-a28d6cfa31e1",
+		"title": "Producto 10",
+		"description": "Esta es la descripcion del prod 10",
+		"code": "abc123xyz",
+		"price": 0,
+		"status": true,
+		"stock": 0,
+		"category": "electronics",
+		"thumbnails": [
+			"https://foto1",
+			"https://foto2",
+			"https://foto3"
+		]
+	}
+]
