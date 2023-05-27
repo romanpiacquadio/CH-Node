@@ -1,56 +1,97 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 import ProductManager from '../managers/ProductManager.js';
-import fs from 'fs';
 
 const router = Router();
 
-const productManager = new ProductManager()
+export const productManager = new ProductManager();
 
-
+// This endpoint sends the full list of products to the client.
 router.get('/', async (req, res) => {
-  const allProducts = await productManager.getProducts()
-  res.send(allProducts)
+
+  try {
+    const allProducts = await productManager.getProducts();
+    res.send(allProducts);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
+
+  }
+  
 })
 
+// This endpoint responds with the information of a sigle product.
 router.get('/:pid', async (req, res) => {
-  const { pid } = req.params
+  const { pid } = req.params;
 
-  const productFound = await productManager.getProduct(pid)
+  try {
+    const productFound = await productManager.getProduct(pid);
+    if(!productFound) return res.status(404).send({error: `Unexisting product with ID: ${pid}`});
+    res.send(productFound);
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
 
-  if(!productFound) return res.status(404).json({"msg": `No existe un producto con el id: ${pid}`})
-
-  res.json(productFound)
+  }
 })
 
+//This endpoint creates a product with information provided by the client and saves it into the DB.
 router.post('/', async (req, res) => {
-  const productData = req.body
+  const productData = req.body;
 
-  const newProductStatus = await productManager.createProduct(productData)
+  try {
+    const newProductStatus = await productManager.createProduct(productData);
+    res.send({msg: newProductStatus});
 
-  res.send({msg: newProductStatus})
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({error: error.message});
+
+  }
 })
 
+// This endpoint updates the given properties of a product.
 router.put('/:pid', async (req, res) => {
   const { pid } = req.params;
   const newProductData = req.body;
 
-  const resp = await productManager.updateProduct(pid, newProductData)
+  try {
+    const resp = await productManager.updateProduct(pid, newProductData);
+    
+    if(resp.includes('Unexisting product')){
+      res.status(404).send({ error: resp });
+    } else {
+      res.send({msg: resp});
+    }
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
 
-  res.send(resp)
+  }
 })
 
 
+// This endpoint deletes a product from the DB.  
 router.delete('/:pid', async (req, res) => {
-  const { pid } = req.params
+  const { pid } = req.params;
   
-  const resp = await productManager.deleteProduct(pid)
+  try {
+    const resp = await productManager.deleteProduct(pid);
 
-  if(!resp) return res.status(404).send({msg: 'Id no válido'})
+    if(!resp) return res.status(404).send({error: 'Invalid product ID'});
 
-  res.send({msg: resp})
+    res.send(resp)
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({error: error.message});
+    
+  }
 })
 
-export default router
+export default router;
 
 
 
