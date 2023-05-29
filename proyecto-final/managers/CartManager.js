@@ -73,6 +73,7 @@ class Cart {
       const productAlreadyAdded = cartFound.products.find(
         (product) => product.id === pid
       );
+      
       if (!productAlreadyAdded) {
         cartFound.products.push({
           id: pid,
@@ -81,7 +82,8 @@ class Cart {
       } else {
         productAlreadyAdded.quantity += quantity;
       }
-  
+      
+      await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
       return 'Product added';
       
     } catch (error) {

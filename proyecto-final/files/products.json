@@ -88,5 +88,31 @@
 			"https://foto2",
 			"https://foto3"
 		]
+	},
+	{
+		"id": "5290c438-e075-4760-9a0c-359c1f67587d",
+		"title": "Producto 5",
+		"description": "Esta es la descripcion del prod 5",
+		"price": 10000,
+		"status": true
+	},
+	{
+		"id": "7562a4a1-9b3b-43ff-9cdf-b4838be0c7c0",
+		"title": "Producto 5",
+		"description": "Esta es la descripcion del prod 5",
+		"code": "abc123xyz",
+		"price": 10000,
+		"status": true
+	},
+	{
+		"id": "e8086bc9-4921-4467-b9a6-a852dd0dba59",
+		"title": "Producto 5",
+		"description": "Esta es la descripcion del prod 5",
+		"code": "abc123xyz",
+		"price": 10000,
+		"status": true,
+		"stock": 62,
+		"category": "electronics",
+		"thumbnails": []
 	}
 ]

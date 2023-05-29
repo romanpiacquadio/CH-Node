@@ -24,10 +24,11 @@ router.get('/:cid', async (req, res) => {
   
   try {
     const resp = await cartManager.getCart(cid);
-    if(resp.includes('Cart not found')) {
+    
+    if(typeof(resp) === 'string' && resp.includes('Cart not found')) {
       res.status(404).send({error: resp});
     } else {
-      res.send({products: cartFound.products});
+      res.send(resp);
     }
 
   } catch (error) {

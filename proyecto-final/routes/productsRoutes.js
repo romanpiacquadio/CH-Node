@@ -7,9 +7,10 @@ export const productManager = new ProductManager();
 
 // This endpoint sends the full list of products to the client.
 router.get('/', async (req, res) => {
-
+  const { limit } = req.query
   try {
     const allProducts = await productManager.getProducts();
+    if(limit) return res.send(allProducts.slice(0, limit))
     res.send(allProducts);
 
   } catch (error) {
@@ -38,9 +39,35 @@ router.get('/:pid', async (req, res) => {
 
 //This endpoint creates a product with information provided by the client and saves it into the DB.
 router.post('/', async (req, res) => {
-  const productData = req.body;
+  //const productData = req.body;
+  const {
+    title,
+    description,
+    code,
+    price,
+    stock,
+    category,
+  } = req.body
+
+  if( !title || !description || !code || !price || !stock || !category ) {
+    res.status(400).send({error: "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory"})
+  }
 
   try {
+    
+    const status = req.body.status !== undefined ? req.body.status : true;
+    const thumbnails = req.body.thumbnails || [];
+    
+    const productData = {
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails
+    }
     const newProductStatus = await productManager.createProduct(productData);
     res.send({msg: newProductStatus});
 

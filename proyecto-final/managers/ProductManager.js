@@ -64,8 +64,8 @@ class ProductManager {
         if(product.id === id) {
           productUpdated = true;
           return {
-            id,
-            ...updatedData
+            ...product,     // hago una copia de la informacion que existia previamente para el producto
+            ...updatedData  // sobrescribo las propiedades modificadas (lo que llegó por el req.body)
           }
         } else {
           return product;
@@ -73,7 +73,6 @@ class ProductManager {
       })
 
       if(!productUpdated) {
-        console.log({productUpdated});
         return `Unexisting product with ID: ${id}`;
       }
   
@@ -93,7 +92,8 @@ class ProductManager {
       const updatedProductList = products.filter( product => product.id !== id );
   
       if(products.length === updatedProductList.length) return null;
-  
+
+      await fs.promises.writeFile(path, JSON.stringify(updatedProductList, null, '\t'));
       return {msg: 'Product deleted'};
       
     } catch (error) {
