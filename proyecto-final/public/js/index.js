@@ -1,3 +1,5 @@
+// import axios from 'axios';
+
 // Función asincrónica para obtener los productos
 const getProducts = async () => {
   try {

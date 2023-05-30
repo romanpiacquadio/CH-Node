@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { io } from '../index.js'
 import ProductManager from '../managers/ProductManager.js';
 
 const router = Router();
@@ -39,7 +40,7 @@ router.get('/:pid', async (req, res) => {
 
 //This endpoint creates a product with information provided by the client and saves it into the DB.
 router.post('/', async (req, res) => {
-  //const productData = req.body;
+  console.log({req: req.body});
   const {
     title,
     description,
@@ -68,7 +69,11 @@ router.post('/', async (req, res) => {
       category,
       thumbnails
     }
+
     const newProductStatus = await productManager.createProduct(productData);
+    
+    console.log(newProductStatus);
+    io.emit('updatedProduct', 'El producto ha sido actualizado')
     res.send({msg: newProductStatus});
 
   } catch (error) {

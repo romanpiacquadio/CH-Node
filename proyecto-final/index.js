@@ -1,4 +1,5 @@
 import express from 'express';
+import {createServer} from 'http';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import productsRoutes from './routes/productsRoutes.js';
@@ -8,6 +9,7 @@ import __dirname from './utils.js';
 
 const app = express();
 const PORT = 8080;
+
 
 
 app.use(express.static(`${__dirname}/public`));
@@ -27,4 +29,4 @@ const server = app.listen(PORT, () => {
   console.log(`listening on ${PORT}`)
 });
 
-const io = new Server(server);
+export const io = new Server(server);

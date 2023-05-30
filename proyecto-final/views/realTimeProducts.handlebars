@@ -1,8 +1,39 @@
 <div>
-  <form>
-    <label for="title">Title</label>
-    <input type="text" name="title">
+  <form id="product-form">
+    <div>
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title">
+    </div>
+    <br>
+    <div>
+      <label for="description">Description</label>
+      <input type="text" name="description" id="description">
+    </div>
+    <br>
+    <div>
+      <label for="code">Code</label>
+      <input type="text" name="code" id="code">
+    </div>
+    <br>
+    <div>
+      <label for="price">Price</label>
+      <input type="number" name="price" id="price">
+    </div>
+    <br>
+    <div>
+      <label for="stock">Stock</label>
+      <input type="number" name="stock" id="stock">
+    </div>
+    <br>
+    <div>
+      <label for="category">Category</label>
+      <input type="text" name="category" id="category">
+    </div>
+    <br>
+    <input type="submit">
   </form>
 </div>
-<div id="products-container">Hola desde realTimeProducts hanldebars</div>
-<script src="/js/realTimeProducts.js"></script>
+<div id="products-container"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module" src="/js/realTimeProducts.js"></script>
