@@ -45,21 +45,6 @@
 		]
 	},
 	{
-		"id": "11f3e24a-2cd8-4359-b238-a28d6cfa31e1",
-		"title": "Producto 10",
-		"description": "Esta es la descripcion del prod 10",
-		"code": "abc123xyz",
-		"price": 0,
-		"status": true,
-		"stock": 0,
-		"category": "electronics",
-		"thumbnails": [
-			"https://foto1",
-			"https://foto2",
-			"https://foto3"
-		]
-	},
-	{
 		"id": "f0cc0e5e-0afe-4a87-a512-ebd057419441",
 		"title": "Producto 4",
 		"description": "Esta es la descripcion del prod 4",
@@ -88,65 +73,6 @@
 			"https://foto2",
 			"https://foto3"
 		]
-	},
-	{
-		"id": "5290c438-e075-4760-9a0c-359c1f67587d",
-		"title": "Producto 5",
-		"description": "Esta es la descripcion del prod 5",
-		"price": 10000,
-		"status": true
-	},
-	{
-		"id": "7562a4a1-9b3b-43ff-9cdf-b4838be0c7c0",
-		"title": "Producto 5",
-		"description": "Esta es la descripcion del prod 5",
-		"code": "abc123xyz",
-		"price": 10000,
-		"status": true
-	},
-	{
-		"id": "e8086bc9-4921-4467-b9a6-a852dd0dba59",
-		"title": "Producto 5",
-		"description": "Esta es la descripcion del prod 5",
-		"code": "abc123xyz",
-		"price": 10000,
-		"status": true,
-		"stock": 62,
-		"category": "electronics",
-		"thumbnails": []
-	},
-	{
-		"id": "82248eb9-3b77-4887-8ccf-a36ee4370ba7",
-		"title": "Producto 5",
-		"description": "Esta es la descripcion del prod 5",
-		"code": "abc123xyz",
-		"price": 10000,
-		"status": true,
-		"stock": 62,
-		"category": "electronics",
-		"thumbnails": []
-	},
-	{
-		"id": "1dcf1481-bb6e-4553-84e1-0270f8cd6144",
-		"title": "Producto 6",
-		"description": "Esta es la descripcion del prod 6",
-		"code": "abc123xyz",
-		"price": 10000,
-		"status": true,
-		"stock": 62,
-		"category": "electronics",
-		"thumbnails": []
-	},
-	{
-		"id": "f4e147ad-dc2c-4e24-8737-6388de14e176",
-		"title": "Producto 6",
-		"description": "Esta es la descripcion del prod 6",
-		"code": "abc123xyz",
-		"price": 10000,
-		"status": true,
-		"stock": 62,
-		"category": "electronics",
-		"thumbnails": []
 	},
 	{
 		"id": "c8245525-57e3-4b6d-834b-02dfbaf5fe70",
@@ -204,157 +130,25 @@
 		"thumbnails": []
 	},
 	{
-		"id": "25afdac5-93fe-4c16-a488-e913aba39003",
-		"title": "prod 11",
-		"description": "desc11",
-		"code": "codigo11",
-		"price": "1111",
+		"id": "f5de57de-e749-4042-9748-f80b19dddfbf",
+		"title": "Producto 11",
+		"description": "Descripcion 11",
+		"code": "xyz123",
+		"price": 100,
 		"status": true,
-		"stock": "11",
+		"stock": 50,
 		"category": "electro",
 		"thumbnails": []
 	},
 	{
-		"id": "35ee7fe0-c3f4-4f32-b086-55c86f6eef25",
-		"title": "prod 11",
-		"description": "producto 11",
-		"code": "11",
-		"price": 1111,
+		"id": "efdabd53-e150-4423-9d20-c95b558e87ad",
+		"title": "Producto 12",
+		"description": "descripcion prod 12",
+		"code": "xyz123",
+		"price": 100,
 		"status": true,
-		"stock": 10,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "7821ff0d-bab9-41c6-9ac8-21adddd157fe",
-		"title": "prod 11",
-		"description": "producto 11",
-		"code": "11",
-		"price": 1111,
-		"status": true,
-		"stock": 10,
+		"stock": 50,
 		"category": "electro",
-		"thumbnails": []
-	},
-	{
-		"id": "50453461-01e7-4cea-beca-1ece5607cc8d",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "c3e39a1f-943e-413c-a55f-4c6a1658521b",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "408dc717-e391-4073-9488-1c021092e84b",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "550ab0d9-1554-43a8-8115-4e2d41fa3b9c",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "0ce6a5d6-0bbc-49da-81eb-085c838449ff",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "f655af5f-a51e-4f98-879e-fab2ddc050c6",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "422054a1-4560-4c31-b176-ac08483ba628",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "3b714ead-d2b1-49af-86cc-20799fb235c9",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "522f7d31-a96f-4eb5-b20e-56c6833409ab",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
-		"thumbnails": []
-	},
-	{
-		"id": "2f1f458d-e363-4fd6-9191-d475fb99524d",
-		"title": "1",
-		"description": "1",
-		"code": "1",
-		"price": 1,
-		"status": true,
-		"stock": 1,
-		"category": "1",
-		"thumbnails": []
-	},
-	{
-		"id": "4594cadd-2c55-46ce-bfbf-b94492a5eff2",
-		"title": "",
-		"description": "",
-		"code": "",
-		"price": null,
-		"status": true,
-		"stock": null,
-		"category": "",
 		"thumbnails": []
 	}
 ]

@@ -73,7 +73,9 @@ router.post('/', async (req, res) => {
     const newProductStatus = await productManager.createProduct(productData);
     
     console.log(newProductStatus);
-    io.emit('updatedProduct', 'El producto ha sido actualizado')
+    io.emit('updatedProduct', {
+      title
+    })
     res.send({msg: newProductStatus});
 
   } catch (error) {
