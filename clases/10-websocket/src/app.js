@@ -18,15 +18,15 @@ const server = app.listen(8080, () => {
   console.log(`Server running on port 8080`);
 })
 
-const io = new Server(server);
+const io = new Server(server)
 
 // io.on('connection', socket => {
 //   console.log('Nuevo cliente conectado')
 
 //   socket.on('message', data => {
 //     console.log(data);
-//   });
-  
+//   })
+
 //   socket.emit('evento_socket_individual', 'este mensaje solo lo recibe el socket');
 
 //   socket.broadcast.emit('evento_todos_menos_actual', 'Lo van a ver todos los clientes menos el actual');

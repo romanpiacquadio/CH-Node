@@ -1,6 +1,6 @@
 const socket = io();
 
-socket.emit('message', 'hola a todos, esto es un mensaje desde el front')
+socket.emit('message', 'Hola a todos, estos es un mensaje desde el front')
 
 socket.on('evento_socket_individual', data => {
   console.log(data)

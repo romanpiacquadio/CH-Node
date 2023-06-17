@@ -8,6 +8,8 @@ export const productManager = new ProductManager();
 
 // This endpoint sends the full list of products to the client.
 router.get('/', async (req, res) => {
+  /// /api/products?limit=5
+
   const { limit } = req.query
   try {
     const allProducts = await productManager.getProducts();
@@ -27,7 +29,7 @@ router.get('/:pid', async (req, res) => {
   const { pid } = req.params;
 
   try {
-    const productFound = await productManager.getProduct(pid);
+    const productFound = await productManager.getProduct(pid); // producto o un null
     if(!productFound) return res.status(404).send({error: `Unexisting product with ID: ${pid}`});
     res.send(productFound);
     
@@ -40,7 +42,6 @@ router.get('/:pid', async (req, res) => {
 
 //This endpoint creates a product with information provided by the client and saves it into the DB.
 router.post('/', async (req, res) => {
-  console.log({req: req.body});
   const {
     title,
     description,
@@ -76,6 +77,7 @@ router.post('/', async (req, res) => {
     io.emit('updatedProduct', {
       title
     })
+
     res.send({msg: newProductStatus});
 
   } catch (error) {
@@ -89,6 +91,9 @@ router.post('/', async (req, res) => {
 router.put('/:pid', async (req, res) => {
   const { pid } = req.params;
   const newProductData = req.body;
+  // {
+  //   status: false
+  // }
 
   try {
     const resp = await productManager.updateProduct(pid, newProductData);

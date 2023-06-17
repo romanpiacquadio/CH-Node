@@ -64,8 +64,8 @@ class ProductManager {
         if(product.id === id) {
           productUpdated = true;
           return {
-            ...product,     // hago una copia de la informacion que existia previamente para el producto
-            ...updatedData  // sobrescribo las propiedades modificadas (lo que llegó por el req.body)
+            ...product,     // hago una copia de la informacion que existia previamente para el producto    { name: 'nico', surname:'varveri' } {...este,
+            ...updatedData  // sobrescribo las propiedades modificadas (lo que llegó por el req.body)       { name: 'roman' }                   ...esteOtro}
           }
         } else {
           return product;
