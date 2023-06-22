@@ -150,5 +150,16 @@
 		"stock": 50,
 		"category": "electro",
 		"thumbnails": []
+	},
+	{
+		"id": "b84f3b40-4077-4fc4-a1d1-3c7e695deb36",
+		"title": "producto 13",
+		"description": "gdfg",
+		"code": "dfgd",
+		"price": 10,
+		"status": true,
+		"stock": 10,
+		"category": "electro",
+		"thumbnails": []
 	}
 ]

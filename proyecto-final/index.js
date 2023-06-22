@@ -1,11 +1,14 @@
 import express from 'express';
 import {createServer} from 'http';
+import displayRoutes from 'express-routemap';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import productsRoutes from './routes/productsRoutes.js';
 import cartsRoutes from './routes/cartsRoutes.js';
 import viewsRoutes from './routes/viewsRoutes.js';
 import __dirname from './utils.js';
+import { mongoDBConnection } from './db/mongo.config.js';
+
 
 const app = express();
 const PORT = 8080;
@@ -25,8 +28,13 @@ app.use('/api/products', productsRoutes)
 app.use('/api/carts', cartsRoutes)
 
 
+mongoDBConnection();
+
 const server = app.listen(PORT, () => {
-  console.log(`listening on ${PORT}`)
+  displayRoutes(app)
+  console.log(`===================================`);
+  console.log(`==== listening on Port: ${PORT} ===`)
+  console.log(`===================================`);
 });
 
 export const io = new Server(server);
