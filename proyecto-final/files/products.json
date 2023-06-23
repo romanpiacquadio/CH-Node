@@ -161,5 +161,38 @@
 		"stock": 10,
 		"category": "electro",
 		"thumbnails": []
+	},
+	{
+		"id": "bd4cc686-9a50-4a7e-8334-779f7666102c",
+		"title": "Producto 1",
+		"description": "This is the description of product 1",
+		"code": "abc123xyz",
+		"price": 100,
+		"status": true,
+		"stock": 8,
+		"category": "electronics",
+		"thumbnails": []
+	},
+	{
+		"id": "b451a413-cda1-43d0-be4c-7ef02ab3dd86",
+		"title": "Producto 1",
+		"description": "This is the description of product 1",
+		"code": "abc123xyz",
+		"price": 100,
+		"status": true,
+		"stock": 8,
+		"category": "electronics",
+		"thumbnails": []
+	},
+	{
+		"id": "4b4da036-dfe5-4f35-9778-9b374f549797",
+		"title": "Producto 1",
+		"description": "This is the description of product 1",
+		"code": "abc123xyz",
+		"price": 100,
+		"status": true,
+		"stock": 8,
+		"category": "electronics",
+		"thumbnails": []
 	}
 ]
