@@ -63,7 +63,8 @@ class Cart {
       } else {
         productAlreadyAdded.quantity += quantity;
       }
-      
+
+      cartFound.markModified('products');
       await cartFound.save();
 
       return {msg: 'Product added'};
