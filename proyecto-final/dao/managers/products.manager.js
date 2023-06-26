@@ -18,7 +18,7 @@ class ProductManager {
   // This method retrieves a single Product from the DB
   async getProduct(id) {
     try {
-      const productDetail = await productsModel.find({ _id: id })
+      const productDetail = await productsModel.findById(id)
       return productDetail;
     
     } catch (error) {
@@ -69,11 +69,6 @@ class ProductManager {
       if(!productToDelete) return {msg: `Unexisting product with id: ${id}`}
 
       return {msg: 'Product Deleted', productToDelete}
-      
-      // const products = await this.getProducts();
-      // const updatedProductList = products.filter( product => product.id !== id );
-      //if(products.length === updatedProductList.length) return null;
-      //await fs.promises.writeFile(path, JSON.stringify(updatedProductList, null, '\t'));
             
     } catch (error) {
       throw new Error('Error while eliminating the product');

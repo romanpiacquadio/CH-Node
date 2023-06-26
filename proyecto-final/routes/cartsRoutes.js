@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import CartManager from '../managers/CartManager.js'
+import CartManager from '../dao/managers/carts.manager.js';
 
 const router = Router();
 const cartManager = new CartManager();
@@ -9,7 +9,7 @@ const cartManager = new CartManager();
 router.post('/', async (req, res) => {
   try {
     const resp = await cartManager.createCart();
-    res.send({msg: resp});
+    res.send(resp);
 
   } catch (error) {
     console.log(error);
@@ -45,10 +45,10 @@ router.post('/:cid/product/:pid', async (req, res) => {
 
   try {
     const resp = await cartManager.addProductToCart(cid, pid, quantity);
-    if(resp.includes('Product added')) {
-      res.send({msg: resp});
+    if(resp.msg === 'Product added') {
+      res.send(resp);
     } else {
-      res.status(404).send({error: resp});
+      res.status(404).send(resp);
     }
 
   } catch (error) {
