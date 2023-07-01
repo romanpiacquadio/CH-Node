@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { io } from '../index.js'
-import ProductManager from '../managers/ProductManager.js';
+import ProductManager from '../dao/managers/products.manager.js';
 
 const router = Router();
 
@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
 
   const { limit } = req.query
   try {
-    const allProducts = await productManager.getProducts();
-    if(limit) return res.send(allProducts.slice(0, limit))
-    res.send(allProducts);
+    const productsArr = await productManager.getProducts();
+    if(limit) return res.send(productsArr.slice(0, limit))
+    res.send(productsArr);
 
   } catch (error) {
     console.log(error);
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
   } = req.body
 
   if( !title || !description || !code || !price || !stock || !category ) {
-    res.status(400).send({error: "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory"})
+    return res.status(400).send({error: "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory"})
   }
 
   try {
@@ -72,13 +72,12 @@ router.post('/', async (req, res) => {
     }
 
     const newProductStatus = await productManager.createProduct(productData);
-    
-    console.log(newProductStatus);
+
     io.emit('updatedProduct', {
       title
     })
 
-    res.send({msg: newProductStatus});
+    res.send(newProductStatus);
 
   } catch (error) {
     console.log(error);
@@ -91,17 +90,15 @@ router.post('/', async (req, res) => {
 router.put('/:pid', async (req, res) => {
   const { pid } = req.params;
   const newProductData = req.body;
-  // {
-  //   status: false
-  // }
 
   try {
     const resp = await productManager.updateProduct(pid, newProductData);
     
-    if(resp.includes('Unexisting product')){
-      res.status(404).send({ error: resp });
+    if(resp.msg.includes('Unexisting product')){
+      res.status(404).send(resp);
+
     } else {
-      res.send({msg: resp});
+      res.send(resp);
     }
     
   } catch (error) {
