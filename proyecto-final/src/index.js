@@ -8,9 +8,9 @@ import viewsRoutes from './routes/viewsRoutes.js';
 import __dirname from './utils.js';
 import { mongoDBConnection } from './db/mongo.config.js';
 import { messagesModel } from './dao/models/message.schema.js';
+import { PORT } from './config/config.js';
 
 const app = express();
-const PORT = 8080;
 
 
 
@@ -42,6 +42,10 @@ io.on('connection', socket => {
   console.log('Nuevo cliente conectado');
 
   socket.on('message', async (data) => {
+    // {
+    //   user: 'Braian',
+    //   message: 'Hola'
+    // }
     await messagesModel.create(data);
     const messages = await messagesModel.find({});
     io.emit('messageLogs', messages);
