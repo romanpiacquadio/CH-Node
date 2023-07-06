@@ -7,11 +7,8 @@ class ProductManager {
   // This method retrieves the full list of Products available in the DB
   async getProducts(query, options) {
 
-    console.log(query);
-    console.log(options);
     try {
       const paginatedProducts = await productsModel.paginate(query, options);
-      console.log({paginatedProducts});
       const prevLink = paginatedProducts.hasPrevPage ? generateUrlLink(query, options, paginatedProducts.prevPage) : null
       const nextLink = paginatedProducts.hasNextPage ? generateUrlLink(query, options, paginatedProducts.nextPage) : null
 

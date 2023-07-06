@@ -1,0 +1,164 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,300,500,700);
+ * {
+	 box-sizing: border-box;
+}
+ body {
+  margin: 0px;
+	 background: #f2f2f2;
+	 font-family: "Raleway";
+}
+
+.products-title-container {
+  display: flex;
+  justify-content: center;
+}
+
+.products-title {
+  text-align: center;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+}
+
+.card {
+  width: 20%;
+  margin: 15px;
+  box-sizing: border-box;
+  float: left;
+  border-radius: 20px;
+  cursor: pointer;
+  padding-top: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+  0 10px 10px rgba(0, 0, 0, 0.22);
+  transition: .4s;
+  background: #f2f2f2;
+}
+
+.card:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+  0 3px 6px rgba(0, 0, 0, 0.23);
+  transform: translate(0px, -8px);
+}
+
+.card h3 {
+  text-align: center;
+}
+
+.card img {
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+.card p {
+  text-align: center;
+  color: #b2bec3;
+  padding-top: 0 8px;
+}
+
+.card h6 {
+  font-size: 26px;
+  text-align: center;
+  color: #222f3e ;
+  margin: 0;
+}
+
+.card button {
+  text-align: center;
+  font-size: 24px;
+  color: #fff;
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  margin-top: 5px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.buy {
+  background: #2183a2;
+}
+
+@media(max-width: 750px) {
+  .card {
+    width: 45px;
+  }
+}
+
+
+/* .photo{
+  width: 240px;
+  height: 300px;
+} */
+
+/* .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
+
+/* .description {
+  width: 160px;
+  padding: 10px;
+} */
+/*  
+.card h3 {
+  text-align: center;
+  font-size: 30px;
+  margin: 0;
+  padding-top: 10px;
+}
+a{
+  text-decoration: none;
+}
+
+.description h4 {
+  font-size: medium;
+}
+
+.description h1 {
+  font-size: large;
+}
+
+.description p {
+  font-size: small;
+} */
+
+.footer-pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.prev-page, .current-page, .next-page {
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.centered-button {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  text-decoration: none; /* Añadido para evitar el subrayado del enlace */
+}
+
+.centered-button:hover {
+  background-color: #45a049;
+}

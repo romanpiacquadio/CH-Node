@@ -57,8 +57,6 @@ class CartManager {
       const productAlreadyAdded = cartFound.products.find(
         (product) => product.product == pid
       );
-
-      console.log({productAlreadyAdded});
       
       if (!productAlreadyAdded) {
         cartFound.products.push({

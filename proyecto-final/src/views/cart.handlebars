@@ -1,0 +1,9 @@
+<h1 class="products-title">
+  CART View {{cart._id}}
+</h1>
+
+{{#each cart.products}}
+  <h6>{{this.product.title}}</h6>
+  <h6>Quantity: {{this.quantity}}</h6>
+{{/each}}
+
