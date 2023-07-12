@@ -1,0 +1,54 @@
+<div>
+  <h1>SIGN UP</h1>
+
+  <div>
+    <form action="/api/session/register" method="post">
+      <label for="nombre-cliente">First Name</label><br />
+      <input
+        type="text"
+        name="first_name"
+        id="first_name"
+        placeholder="type your name"
+        required
+      /><br />
+      <label for="last_name">Last Name</label><br />
+      <input
+        type="text"
+        name="last_name"
+        id="last_name"
+        placeholder="type your last name"
+        required
+      /><br />
+      <label for="email">Email</label><br />
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="type your email"
+        required
+      />
+      <br />
+      <label for="age">Age</label><br />
+      <input
+        type="number"
+        name="age"
+        id="age"
+        placeholder="type your age"
+        min="0"
+        required
+      />
+      <br />
+      <label for="password">Password</label><br />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="type your password"
+        required
+      />
+      <br />
+      <button type="submit">submit</button>
+    </form>
+  </div>
+
+</div>

@@ -1,11 +1,8 @@
-import { connect } from 'mongoose';
-import dotenv from 'dotenv';
-dotenv.config();
-
-//console.log({url: process.env.MONGODB_CNN})
+import { connect } from "mongoose";
+import { MONGODB_CNN } from "../config/config.js";
 
 const configConnection = {
-  url: process.env.MONGODB_CNN,
+  url: MONGODB_CNN,
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,

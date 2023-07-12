@@ -8,13 +8,32 @@ export const productManager = new ProductManager();
 
 // This endpoint sends the full list of products to the client.
 router.get('/', async (req, res) => {
-  /// /api/products?limit=5
+  /// /api/products?limit=5&page=2&order=asc&query=
+  const { limit = 10 } = req.query;
+  const { page = 1 } = req.query;
+  const { sort } = req.query;
+  const { query } = req.query;
 
-  const { limit } = req.query
+  const options = {
+    limit,
+    page,
+  }
+
+  if(sort) {
+    options.sort = {
+      price: sort
+    }
+  }
+
+  const filter = {};
+  
+  if(query) {
+    filter.category = query;
+  }
+
   try {
-    const productsArr = await productManager.getProducts();
-    if(limit) return res.send(productsArr.slice(0, limit))
-    res.send(productsArr);
+    const paginatedProducts = await productManager.getProducts(filter, options);
+    res.send(paginatedProducts);
 
   } catch (error) {
     console.log(error);

@@ -1,15 +1,35 @@
 import { productsModel } from "../models/product.schema.js";
+import { generateUrlLink } from "../../helpers/index.js";
 
 
 class ProductManager {
 
   // This method retrieves the full list of Products available in the DB
-  async getProducts() {
+  async getProducts(query, options) {
+
     try {
-      const productsArr = await productsModel.find({});
-      return productsArr;
+      const paginatedProducts = await productsModel.paginate(query, options);
+      const prevLink = paginatedProducts.hasPrevPage ? generateUrlLink(query, options, paginatedProducts.prevPage) : null
+      const nextLink = paginatedProducts.hasNextPage ? generateUrlLink(query, options, paginatedProducts.nextPage) : null
+
+      const response = {
+        status: 'success',
+        payload: paginatedProducts.docs,
+        totalDocs: paginatedProducts.totalDocs,
+        totalPages: paginatedProducts.totalPages,
+        prevPage: paginatedProducts.prevPage,
+        nextPage: paginatedProducts.nextPage,
+        page: paginatedProducts.page,
+        hasPrevPage: paginatedProducts.hasPrevPage,
+        hasNextPage: paginatedProducts.hasNextPage,
+        prevLink,
+        nextLink,
+      }
+
+      return response;
       
     } catch (error) {
+      console.log(error)
       throw new Error('Error while retrieving the product list')
     }
 
@@ -22,6 +42,7 @@ class ProductManager {
       return productDetail;
     
     } catch (error) {
+      console.log(error);
       throw new Error('Error while retrieving the product');
     }
 
@@ -42,6 +63,7 @@ class ProductManager {
       return {msg: 'Product added', newProduct};
       
     } catch (error) {
+      console.log(error);
       throw new Error('Error while creating the product');
     }
   }
@@ -57,6 +79,7 @@ class ProductManager {
       return {msg: 'Product Updated', productUpdated}
       
     } catch (error) {
+      console.log(error);
       throw new Error('Error while updating the product');
     }
   }
@@ -71,6 +94,7 @@ class ProductManager {
       return {msg: 'Product Deleted', productToDelete}
             
     } catch (error) {
+      console.log(error);
       throw new Error('Error while eliminating the product');
     }
   }

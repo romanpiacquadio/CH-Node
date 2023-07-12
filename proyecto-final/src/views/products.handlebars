@@ -1,0 +1,66 @@
+<link rel="stylesheet" type="text/css" href="/css/products.css">
+
+  <h1 id="index" class="products-title">
+    Buy a product and get it TODAY!
+  </h1>
+
+<div class="header">
+  <p>Hello, {{user._doc.first_name}}</p>
+  <form action="/api/session/logout" method="get">
+    <button type="submit">Log Out</button>
+  </form>
+</div>
+
+
+
+<div class="gallery">
+{{#each products.payload}}
+  <div class="card">
+    <img src={{this.thumbnails}} alt="photo">
+    <h3>{{this.title}}</h3>
+    <p>{{this.code}}</p>
+    <h6>${{this.price}}</h6>
+    <p>{{this.description}}</p>
+    <form action="/api/carts/64a7f88195be301922988202/product/{{this._id}}" method="post">
+      <div class="units-wrapper">
+        <label for="quantity">Units</label>
+        <input type="number" name="quantity" id="quantity" min="0"/>
+      </div>
+      <button type="submit" class="buy">Add to Cart</button>
+      </a>
+    </form>
+  </div>
+{{/each}}
+</div>
+
+<footer class="footer-pagination">
+  {{#if products.hasPrevPage}}
+    <div class="prev-page">
+      <p>Pagina previa {{products.prevPage}}</p>
+      <a href="{{products.prevLink}}">
+        <button class="centered-button"> 
+          Anterior
+        </button>
+      </a>
+    </div>
+  {{/if}}
+
+  <div class="current-page">
+      <p>Pagina actual {{products.page}}</p>
+  </div>
+
+
+  {{#if products.hasNextPage}}
+    <div class="next-page">
+      <p>Pagina siguiente {{products.nextPage}}</p>
+      <a href="{{products.nextLink}}">
+        <button class="centered-button">
+          Siguiente
+        </button>
+      </a>
+    </div>
+  {{/if}}
+
+</footer>
+  
+

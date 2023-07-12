@@ -2,30 +2,47 @@ import express from 'express';
 import displayRoutes from 'express-routemap';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
+import viewsRoutes from './routes/viewsRoutes.js';
+import sessionRoutes from './routes/sessionRoutes.js';
 import productsRoutes from './routes/productsRoutes.js';
 import cartsRoutes from './routes/cartsRoutes.js';
-import viewsRoutes from './routes/viewsRoutes.js';
 import __dirname from './utils.js';
 import { mongoDBConnection } from './db/mongo.config.js';
 import { messagesModel } from './dao/models/message.schema.js';
+import { MONGODB_CNN, PORT } from './config/config.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import mongoStore from 'connect-mongo'
 
 const app = express();
-const PORT = 8080;
-
-
 
 app.use(express.static(`${__dirname}/public`));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 //app.use(cors());
+app.use(cookieParser());
+app.use(
+  session({
+    store: mongoStore.create({
+      mongoUrl: MONGODB_CNN,
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 60,
+      // ttl: 60 * 3600
+    }),
+    secret: "secretS3ss10n",
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
 app.use('/', viewsRoutes);
+app.use('/api/session', sessionRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
-
 
 mongoDBConnection();
 
