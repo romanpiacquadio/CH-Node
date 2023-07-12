@@ -47,6 +47,8 @@ class CartManager {
 
   // This method adds a product to a cart. If the product already exists in the given cart then, instead of adding it again, it will just increase the quantity.
   async addProductToCart(cid, pid, quantity) {
+    console.log(cid, pid, quantity);
+
     try {
       const cartFound = await cartsModel.findById(cid);
       if (!cartFound) return {msg: 'Cart not found'};
@@ -57,8 +59,11 @@ class CartManager {
       const productAlreadyAdded = cartFound.products.find(
         (product) => product.product == pid
       );
+      console.log(productAlreadyAdded);
+
       
       if (!productAlreadyAdded) {
+        console.log(cartFound.products);
         cartFound.products.push({
           product: pid,
           quantity

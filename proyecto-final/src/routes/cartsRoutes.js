@@ -41,10 +41,12 @@ router.get('/:cid', async (req, res) => {
 // This endpoint allows to add a product to a cart
 router.post('/:cid/product/:pid', async (req, res) => {
   const { cid, pid } = req.params;
-  const { quantity } = req.body;
+  const { quantity = 1} = req.body;
+
+  if(!quantity || !pid || !cid) return res.status(400).send({msg: 'Must provide cartId, ProdId, quantity'})
 
   try {
-    const resp = await cartManager.addProductToCart(cid, pid, quantity);
+    const resp = await cartManager.addProductToCart(cid, pid, Number(quantity));
     if(resp.msg === 'Product added') {
       res.send(resp);
     } else {

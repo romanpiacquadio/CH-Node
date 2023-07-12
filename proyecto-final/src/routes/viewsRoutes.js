@@ -21,20 +21,20 @@ router.get('/chat', (req, res) => {
 
 router.get('/products', async (req, res) => {
   const { limit, page, sort, query } = req.query;
+  const user = req.session.user
   let url = `${BASE_URL}/api/products?`;
 
-  if (limit) {url += `limit=${limit}`}
-  if (page) {url += `page=${page}`}
-  if (sort) {url += `sort=${sort}`}
-  if (query) {url += `limit=${query}`}
+  if (limit) {url += `&limit=${limit}`}
+  if (page) {url += `&page=${page}`}
+  if (sort) {url += `&sort=${sort}`}
+  if (query) {url += `&limit=${query}`}
 
   try {
     let products = await axios.get(url);
-    let createCart = await axios.post(`${BASE_URL}/api/carts`)
 
     res.render('products',  {
       products: products.data, 
-      cart: createCart.data.cart,
+      user,
       stylesheet:"/css/products.css"
     })
     
@@ -54,6 +54,14 @@ router.get('/carts/:cid', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+})
+
+router.get('/login', (req, res) => {
+  res.render("login");
+})
+
+router.get('/register', (req, res) => {
+  res.render("register");
 })
 
 export default router;
