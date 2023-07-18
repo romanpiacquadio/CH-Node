@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import CartManager from '../dao/managers/carts.manager.js';
+import cartManager from '../dao/managers/carts.manager.js';
 
 const router = Router();
-const cartManager = new CartManager();
 
 
 // This endpoint creates a new Cart 

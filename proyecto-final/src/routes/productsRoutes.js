@@ -1,10 +1,8 @@
 import { Router } from 'express';
 import { io } from '../index.js'
-import ProductManager from '../dao/managers/products.manager.js';
+import productManager from '../dao/managers/products.manager.js';
 
 const router = Router();
-
-export const productManager = new ProductManager();
 
 // This endpoint sends the full list of products to the client.
 router.get('/', async (req, res) => {

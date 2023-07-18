@@ -1,7 +1,5 @@
 import { Router } from "express";
-import { userModel } from "../dao/models/user.schema.js";
-import { BASE_URL } from "../config/config.js";
-import axios from "axios";
+import passport from "passport";
 
 const router = Router();
 
@@ -12,40 +10,54 @@ router.get("/logout", async (req, res) => {
   })
 })
 
-router.post("/login", async (req, res) => {
-  const {email, password} = req.body
-  
-  try {
-    const findUser = await userModel.findOne( {email});
-    if (!findUser || findUser.password !== password) {
-      return res.status(401).send({message: "Invalid email or password"})
-    }
-
+router.post(
+  "/login",
+  passport.authenticate('login', {failureRedirect:'/api/session/faillogin'}), 
+  (req, res) => {    
+    if(!req.user) return res.status(400).send({status: "error", error: "Invalid credentials"})
     req.session.user = {
-      ...findUser,
-      password: "",
-    };
-
-    // return await axios.get(`${BASE_URL}/products`)
-    
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      age: req.user.age,
+      email: req.user.email,
+    }
     res.redirect("/products")
-
-  } catch (error) {
-    console.log(error);
   }
+)
+
+router.get("/faillogin", (req, res) => {
+  res.send({error: "Failed Login"})
 })
 
-router.post("/register", async (req, res) => {
-  try {
-    const {body} = req;
-    const newUser = userModel.create(body);
-
-    req.session.user = {...newUser}
-    return res.render("login")
-
-  } catch (error) {
-    console.log(error);
+router.post(
+  "/register",
+  passport.authenticate('register', {failureRedirect:'/api/session/failregister'}),
+  (req, res) => {
+    res.redirect("/login");
   }
+);
+
+router.get("/failregister", (req, res) => {
+  console.log("Failed register");
+  res.send({error: "Failed"});
 })
+
+router.get("/github", passport.authenticate('github', {scope: ['user:email']}), (req, res) => {
+})
+
+router.get(
+  "/github/callback", 
+  passport.authenticate('github', {failureRedirect:'/api/session/login'}),
+  (req, res) => {
+    if(!req.user) return res.status(400).send({status: "error", error: "Invalid credentials"})
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      age: req.user.age,
+      email: req.user.email,
+    }
+    res.redirect("/products")
+  }
+)
 
 export default router;
