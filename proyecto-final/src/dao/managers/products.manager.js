@@ -1,5 +1,5 @@
 import { productsModel } from "../models/product.schema.js";
-import { generateUrlLink } from "../../helpers/index.js";
+import { generateUrlLink } from "../../helpers/generateUrlLink.js";
 
 
 class ProductManager {

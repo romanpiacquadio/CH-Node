@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { io } from '../index.js'
 import productManager from '../dao/managers/products.manager.js';
+import { isValidMongoId } from '../middlewares/is-valid-mongo-id-.middleware.js';
 
 const router = Router();
 
@@ -42,7 +43,7 @@ router.get('/', async (req, res) => {
 })
 
 // This endpoint responds with the information of a sigle product.
-router.get('/:pid', async (req, res) => {
+router.get('/:pid', isValidMongoId('pid'), async (req, res) => {
   const { pid } = req.params;
 
   try {
@@ -104,7 +105,7 @@ router.post('/', async (req, res) => {
 })
 
 // This endpoint updates the given properties of a product.
-router.put('/:pid', async (req, res) => {
+router.put('/:pid', isValidMongoId('pid'), async (req, res) => {
   const { pid } = req.params;
   const newProductData = req.body;
 
@@ -127,7 +128,7 @@ router.put('/:pid', async (req, res) => {
 
 
 // This endpoint deletes a product from the DB.  
-router.delete('/:pid', async (req, res) => {
+router.delete('/:pid', isValidMongoId('pid'), async (req, res) => {
   const { pid } = req.params;
   
   try {

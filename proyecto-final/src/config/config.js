@@ -13,4 +13,5 @@ export const {
   BASE_URL,
   GITHUB_CLIENT_ID,
   GITHUB_SECRET_KEY,
+  SECRET_JWT
 } = process.env
