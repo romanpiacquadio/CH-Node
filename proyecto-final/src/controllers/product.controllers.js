@@ -1,12 +1,7 @@
-import { Router } from 'express';
 import { io } from '../index.js'
 import productManager from '../dao/managers/products.manager.js';
-import { isValidMongoId } from '../middlewares/is-valid-mongo-id-.middleware.js';
 
-const router = Router();
-
-// This endpoint sends the full list of products to the client.
-router.get('/', async (req, res) => {
+export const getAllProducts = async (req, res) => {
   /// /api/products?limit=5&page=2&order=asc&query=
   const { limit = 10 } = req.query;
   const { page = 1 } = req.query;
@@ -39,11 +34,9 @@ router.get('/', async (req, res) => {
     res.status(500).send({ error: error.message });
 
   }
-  
-})
+};
 
-// This endpoint responds with the information of a sigle product.
-router.get('/:pid', isValidMongoId('pid'), async (req, res) => {
+export const getOneProduct = async (req, res) => {
   const { pid } = req.params;
 
   try {
@@ -56,10 +49,9 @@ router.get('/:pid', isValidMongoId('pid'), async (req, res) => {
     res.status(500).send({ error: error.message });
 
   }
-})
+}
 
-//This endpoint creates a product with information provided by the client and saves it into the DB.
-router.post('/', async (req, res) => {
+export const createProduct = async (req, res) => {
   const {
     title,
     description,
@@ -102,10 +94,9 @@ router.post('/', async (req, res) => {
     res.status(500).send({error: error.message});
 
   }
-})
+}
 
-// This endpoint updates the given properties of a product.
-router.put('/:pid', isValidMongoId('pid'), async (req, res) => {
+export const updateProduct = async (req, res) => {
   const { pid } = req.params;
   const newProductData = req.body;
 
@@ -124,11 +115,9 @@ router.put('/:pid', isValidMongoId('pid'), async (req, res) => {
     res.status(500).send({ error: error.message });
 
   }
-})
+};
 
-
-// This endpoint deletes a product from the DB.  
-router.delete('/:pid', isValidMongoId('pid'), async (req, res) => {
+export const deleteProduct = async (req, res) => {
   const { pid } = req.params;
   
   try {
@@ -143,13 +132,4 @@ router.delete('/:pid', isValidMongoId('pid'), async (req, res) => {
     res.status(500).send({error: error.message});
     
   }
-})
-
-export default router;
-
-
-
-
-
-
-
+}

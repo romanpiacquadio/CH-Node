@@ -1,13 +1,6 @@
-import { Router } from 'express';
 import cartManager from '../dao/managers/carts.manager.js';
-import { isValidMongoId } from '../middlewares/is-valid-mongo-id-.middleware.js';
-import { checkAuthJwt } from '../middlewares/auth-strategy.middleware.js';
 
-const router = Router();
-
-
-// This endpoint creates a new Cart 
-router.post('/', async (req, res) => {
+export const createCart = async (req, res) => {
   try {
     const resp = await cartManager.createCart();
     res.send(resp);
@@ -15,12 +8,10 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.log(error);
     res.send({error: error.message});
-
   }
-})
+};
 
-// This endpoint sends to the client the products included in a given cart
-router.get('/:cid', [isValidMongoId('cid'), checkAuthJwt('jwt')], async (req, res) => {
+export const getCart = async (req, res) => {
   const { cid } = req.params;
   
   try {
@@ -34,13 +25,10 @@ router.get('/:cid', [isValidMongoId('cid'), checkAuthJwt('jwt')], async (req, re
 
   } catch (error) {
     res.status(500).send({error: error.message});
-   
   }
+};
 
-})
-
-// This endpoint allows to add a product to a cart
-router.post('/:cid/product/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], async (req, res) => {
+export const addProductToCart = async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity = 1} = req.body;
 
@@ -56,11 +44,10 @@ router.post('/:cid/product/:pid', [isValidMongoId('cid'), isValidMongoId('pid')]
 
   } catch (error) {
     res.status(500).send({msg: error.message});
-    
   }
-})
+};
 
-router.delete('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], async (req, res) => {
+export const deleteProductFromCart = async (req, res) => {
   const { cid, pid } = req.params;
 
   try {
@@ -69,9 +56,9 @@ router.delete('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid
   } catch (error) {
     res.status(500).send({msg: error.message});
   }
-})
+};
 
-router.put('/:cid', isValidMongoId('cid'), async(req, res) => {
+export const updateProductsFromCart = async(req, res) => {
   const { cid } = req.params;
   const { products } = req.body
 
@@ -81,9 +68,9 @@ router.put('/:cid', isValidMongoId('cid'), async(req, res) => {
   } catch (error) {
     res.status(500).send({msg: error.message})
   }
-})
+};
 
-router.put('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], async(req, res) => {
+export const updateProductFromCart = async(req, res) => {
   const { cid, pid } = req.params;
   const { quantity } = req.body;
 
@@ -93,9 +80,9 @@ router.put('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')]
   } catch (error) {
     res.status(500).send({msg: error.message})
   }
-})
+};
 
-router.delete('/:cid', isValidMongoId('cid'), async(req, res) => {
+export const emptyCart = async(req, res) => {
   const { cid } = req.params;
 
   try {
@@ -104,6 +91,4 @@ router.delete('/:cid', isValidMongoId('cid'), async(req, res) => {
   } catch (error) {
     res.status(500).send({msg: error.message})
   }
-})
-
-export default router;
+};

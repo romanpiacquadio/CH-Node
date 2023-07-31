@@ -1,23 +1,20 @@
-import { Router } from 'express';
 import { BASE_URL } from '../config/config.js';
 import axios from 'axios';
 
-const router = new Router();
 
-
-router.get('/', (req, res) => {
+export const index = (req, res) => {
   res.render('index')
-});
+};
 
-router.get('/realtimeproducts', (req, res) => {
+export const realTimeProducts = (req, res) => {
   res.render('realTimeProducts')
-});
+};
 
-router.get('/chat', (req, res) => {
+export const chat = (req, res) => {
   res.render('chat')
-});
+};
 
-router.get('/products', async (req, res) => {
+export const products = async (req, res) => {
   const { limit, page, sort, query } = req.query;
   const user = req.session.user
   let url = `${BASE_URL}/api/products?`;
@@ -39,9 +36,9 @@ router.get('/products', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-});
+};
 
-router.get('/carts/:cid', async (req, res) => {
+export const cart = async (req, res) => {
   const { cid } = req.params;
 
   try {
@@ -52,14 +49,12 @@ router.get('/carts/:cid', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-})
+};
 
-router.get('/login', (req, res) => {
+export const login = (req, res) => {
   res.render("login");
-})
+};
 
-router.get('/register', (req, res) => {
+export const register = (req, res) => {
   res.render("register");
-})
-
-export default router;
+};
