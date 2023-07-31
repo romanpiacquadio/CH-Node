@@ -12,7 +12,9 @@ import { messagesModel } from './dao/models/message.schema.js';
 import { MONGODB_CNN, PORT } from './config/config.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import mongoStore from 'connect-mongo'
+import mongoStore from 'connect-mongo';
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
 
 const app = express();
 
@@ -33,7 +35,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
   })
-)
+);
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);

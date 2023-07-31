@@ -1,11 +1,9 @@
 import { Router } from 'express';
-import ProductManager from '../dao/managers/products.manager.js';
 import { BASE_URL } from '../config/config.js';
 import axios from 'axios';
 
 const router = new Router();
 
-const productManager = new ProductManager()
 
 router.get('/', (req, res) => {
   res.render('index')

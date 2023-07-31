@@ -1,5 +1,5 @@
 import { cartsModel } from "../models/cart.schema.js";
-import { productManager } from "../../routes/productsRoutes.js";
+import productManager from "./products.manager.js"
 
 class CartManager {
 
@@ -157,4 +157,4 @@ class CartManager {
   }
 }
 
-export default CartManager;
+export default new CartManager();

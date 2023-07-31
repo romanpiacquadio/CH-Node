@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import CartManager from '../dao/managers/carts.manager.js';
+import cartManager from '../dao/managers/carts.manager.js';
+import { isValidMongoId } from '../middlewares/is-valid-mongo-id-.middleware.js';
+import { checkAuthJwt } from '../middlewares/auth-strategy.middleware.js';
 
 const router = Router();
-const cartManager = new CartManager();
 
 
 // This endpoint creates a new Cart 
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
 })
 
 // This endpoint sends to the client the products included in a given cart
-router.get('/:cid', async (req, res) => {
+router.get('/:cid', [isValidMongoId('cid'), checkAuthJwt('jwt')], async (req, res) => {
   const { cid } = req.params;
   
   try {
@@ -39,7 +40,7 @@ router.get('/:cid', async (req, res) => {
 })
 
 // This endpoint allows to add a product to a cart
-router.post('/:cid/product/:pid', async (req, res) => {
+router.post('/:cid/product/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity = 1} = req.body;
 
@@ -59,7 +60,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
   }
 })
 
-router.delete('/:cid/products/:pid', async (req, res) => {
+router.delete('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], async (req, res) => {
   const { cid, pid } = req.params;
 
   try {
@@ -70,7 +71,7 @@ router.delete('/:cid/products/:pid', async (req, res) => {
   }
 })
 
-router.put('/:cid', async(req, res) => {
+router.put('/:cid', isValidMongoId('cid'), async(req, res) => {
   const { cid } = req.params;
   const { products } = req.body
 
@@ -82,7 +83,7 @@ router.put('/:cid', async(req, res) => {
   }
 })
 
-router.put('/:cid/products/:pid', async(req, res) => {
+router.put('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], async(req, res) => {
   const { cid, pid } = req.params;
   const { quantity } = req.body;
 
@@ -94,7 +95,7 @@ router.put('/:cid/products/:pid', async(req, res) => {
   }
 })
 
-router.delete('/:cid', async(req, res) => {
+router.delete('/:cid', isValidMongoId('cid'), async(req, res) => {
   const { cid } = req.params;
 
   try {
