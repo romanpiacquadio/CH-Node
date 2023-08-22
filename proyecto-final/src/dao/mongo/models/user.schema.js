@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { createHashValue } from "../../helpers/encrypt.js";
+import { createHashValue } from "../../../helpers/encrypt.js";
 
 const userCollection = "User";
 

@@ -1,5 +1,5 @@
-import { cartsModel } from "../models/cart.schema.js";
-import productManager from "./products.manager.js"
+import { cartsModel } from "../mongo/models/cart.schema.js";
+import productManager from "./products.mongo.js"
 
 class CartManager {
 

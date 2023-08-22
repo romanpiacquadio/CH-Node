@@ -31,3 +31,4 @@ router.get("/github/callback", passport.authenticate('github', {failureRedirect:
 router.get("/current", checkAuthJwt('jwt'), currentController);
 
 export default router;
+

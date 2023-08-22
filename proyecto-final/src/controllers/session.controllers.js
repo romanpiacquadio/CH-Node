@@ -1,4 +1,4 @@
-import { userModel } from "../dao/models/user.schema.js";
+import { userModel } from "../dao/mongo/models/user.schema.js";
 import { generateJWT } from "../helpers/jwt.js";
 import { isPasswordValid } from "../helpers/encrypt.js";
 

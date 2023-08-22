@@ -1,5 +1,5 @@
 import { io } from '../index.js'
-import productManager from '../dao/managers/products.manager.js';
+import { productsService } from '../repositories/index.js';
 
 export const getAllProducts = async (req, res) => {
   /// /api/products?limit=5&page=2&order=asc&query=
@@ -26,7 +26,7 @@ export const getAllProducts = async (req, res) => {
   }
 
   try {
-    const paginatedProducts = await productManager.getProducts(filter, options);
+    const paginatedProducts = await productsService.getProducts(filter, options);
     res.send(paginatedProducts);
 
   } catch (error) {
@@ -40,7 +40,7 @@ export const getOneProduct = async (req, res) => {
   const { pid } = req.params;
 
   try {
-    const productFound = await productManager.getProduct(pid); // producto o un null
+    const productFound = await productsService.getProduct(pid); // producto o un null
     if(!productFound) return res.status(404).send({error: `Unexisting product with ID: ${pid}`});
     res.send(productFound);
     
@@ -81,7 +81,7 @@ export const createProduct = async (req, res) => {
       thumbnails
     }
 
-    const newProductStatus = await productManager.createProduct(productData);
+    const newProductStatus = await productsService.createProduct(productData);
 
     io.emit('updatedProduct', {
       title
@@ -101,7 +101,7 @@ export const updateProduct = async (req, res) => {
   const newProductData = req.body;
 
   try {
-    const resp = await productManager.updateProduct(pid, newProductData);
+    const resp = await productsService.updateProduct(pid, newProductData);
     
     if(resp.msg.includes('Unexisting product')){
       res.status(404).send(resp);
@@ -121,7 +121,7 @@ export const deleteProduct = async (req, res) => {
   const { pid } = req.params;
   
   try {
-    const resp = await productManager.deleteProduct(pid);
+    const resp = await productsService.deleteProduct(pid);
 
     if(!resp) return res.status(404).send({error: 'Invalid product ID'});
 

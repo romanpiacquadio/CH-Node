@@ -7,9 +7,8 @@ import sessionRoutes from './routes/session.routes.js';
 import productsRoutes from './routes/product.routes.js';
 import cartsRoutes from './routes/cart.routes.js';
 import __dirname from './utils.js';
-import { mongoDBConnection } from './db/mongo.config.js';
-import { messagesModel } from './dao/models/message.schema.js';
-import { MONGODB_CNN, PORT } from './config/config.js';
+import { messagesModel } from './dao/mongo/models/message.schema.js';
+import { MONGODB_CNN, PERSISTENCE, PORT } from './config/config.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import mongoStore from 'connect-mongo';
@@ -50,12 +49,11 @@ app.use('/api/session', sessionRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
 
-mongoDBConnection();
-
 const server = app.listen(PORT, () => {
   displayRoutes(app);
   console.log(`===================================`);
   console.log(`==== listening on Port: ${PORT} ===`);
+  console.log(`==== persistence: ${PERSISTENCE} ==`);
   console.log(`===================================`);
 });
 

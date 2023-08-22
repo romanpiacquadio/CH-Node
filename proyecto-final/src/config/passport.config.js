@@ -1,6 +1,6 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { userModel } from '../dao/models/user.schema.js';
+import { userModel } from '../dao/mongo/models/user.schema.js';
 //import { isPasswordValid } from '../helpers/encrypt.js';
 import GithubStrategy from 'passport-github2';
 import jwt from 'passport-jwt';
@@ -16,7 +16,7 @@ const initializePassport = () => {
     "jwt", 
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // extrae del header Authorization: Bearer atokenaskjehbdkajdhkahdka
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // extrae del header Authorization: Bearer token
         secretOrKey: SECRET_JWT,
       },
       async (jwtPayload, done) => {
