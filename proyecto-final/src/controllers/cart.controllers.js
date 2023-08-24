@@ -92,3 +92,14 @@ export const emptyCart = async(req, res) => {
     res.status(500).send({msg: error.message})
   }
 };
+
+export const purchase = async (req, res) => {
+  const { cid } = req.params;
+
+  try {
+    const resp = await cartsService.purchase(cid);
+    res.send(resp)
+  } catch (error) {
+    res.status(500).send({msg: error.message})
+  }
+}

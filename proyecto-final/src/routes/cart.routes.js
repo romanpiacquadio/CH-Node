@@ -9,7 +9,9 @@ import {
   updateProductsFromCart as updateProductsFromCartController,
   updateProductFromCart as updateProductFromCartController,
   emptyCart as emptyCartController,
+  purchase as purchaseController,
 } from '../controllers/cart.controllers.js';
+import { handlePolicies } from '../middlewares/handle-policies.middleware.js';
 
 const router = Router();
 
@@ -20,7 +22,7 @@ router.post('/', createCartController);
 router.get('/:cid', [isValidMongoId('cid'), checkAuthJwt('jwt')], getCartController);
 
 // This endpoint allows to add a product to a cart
-router.post('/:cid/product/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], addProductToCartController);
+router.post('/:cid/product/:pid', [handlePolicies('jwt', ['USER']), isValidMongoId('cid'), isValidMongoId('pid')], addProductToCartController);
 
 // This endpoint deletes a product from a cart
 router.delete('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')], deleteProductFromCartController);
@@ -33,6 +35,10 @@ router.put('/:cid/products/:pid', [isValidMongoId('cid'), isValidMongoId('pid')]
 
 // This endpoint emptyies a cart
 router.delete('/:cid', isValidMongoId('cid'), emptyCartController);
+
+//This endpoint creates a ticket
+router.get('/:cid/purchase', isValidMongoId('cid'), purchaseController);
+
 
 
 export default router;

@@ -43,4 +43,8 @@ export default class CartRepository {
     return deleteAll;
   }
 
+  async purchase(cid) {
+    const purchase = await this.dao.purchase(cid);
+    return purchase;
+  }
 }

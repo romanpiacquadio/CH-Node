@@ -5,7 +5,7 @@ export default class ProductRepository {
   }
 
   async getProducts(query, options) {
-    let products = await this.dao.getProducts(query, options);
+    let products = await this.dao.getProducts(query, options); // Products.getProducts(x, y)
     return products;
   };
 

@@ -1,5 +1,6 @@
 import { cartsModel } from "../mongo/models/cart.schema.js";
 import productManager from "./products.mongo.js"
+import ticketManager from "./tickets.mongo.js"
 
 class CartManager {
 
@@ -153,6 +154,38 @@ class CartManager {
     } catch (error) {
       console.log(error);
       throw new Error('Error while emptying cart')
+    }
+  }
+
+  async purchase(cid) {
+    try {
+      const cart = await this.getCart(cid);
+      if (!cart) return {msg: 'Cart not found'}
+
+      const unexistingProducts = [];
+      
+      for (const element of cart.products) {
+        if( element.quantity > element.product.stock) {
+          unexistingProducts.push(`${element.product.title} has not enough stock`)
+        }
+      }
+
+      if (unexistingProducts.length > 0) {
+        return unexistingProducts
+      }
+
+      for (const element of cart.products) {
+        await productManager.updateProduct(element.product._id, {
+          stock: element.product.stock - element.quantity
+        })
+      }
+
+      //await ticketManager.createTicket(la persona q lo compró, monto)
+      
+      return {msg: 'Purchase is Ready'}
+      
+    } catch (error) {
+      throw new Error('Error while finishing purchase')
     }
   }
 }

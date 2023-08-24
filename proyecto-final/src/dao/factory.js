@@ -11,6 +11,7 @@ const configConnection = {
 
 export let Products;
 export let Carts;
+export let Tickets;
 
 switch (PERSISTENCE) {
   case 'MONGO':
@@ -25,13 +26,27 @@ switch (PERSISTENCE) {
     const { default: CartsMongo} = await import(
       "./mongo/carts.mongo.js"
     );
+    const { default: TicketMongo} = await import(
+      "./mongo/tickets.mongo.js"
+    );
 
     Products = ProductsMongo;
     Carts = CartsMongo;
+    Tickets = TicketMongo;
 
     break;
 
   default:
     //TODO: Add memory persistence
+    // const { default: ProductsMemory} = await import(
+    //   "./memory/products.memory.js"
+    // );
+    // const { default: CartsMemory} = await import(
+    //   "./memory/carts.memory.js"
+    // );
+
+    // Products = ProductsMemory;
+    // Carts = CartsMemory;
+
     break;
 }

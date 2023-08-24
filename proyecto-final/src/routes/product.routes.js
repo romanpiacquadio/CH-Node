@@ -7,6 +7,7 @@ import {
   updateProduct as updateProductController,
   deleteProduct as deleteProductController,
 } from '../controllers/product.controllers.js';
+import { handlePolicies } from '../middlewares/handle-policies.middleware.js';
 
 const router = Router();
 
@@ -17,13 +18,13 @@ router.get('/', getAllProductsController);
 router.get('/:pid', isValidMongoId('pid'), getOneProductController);
 
 //This endpoint creates a product with information provided by the client and saves it into the DB.
-router.post('/', createProductController);
+router.post('/', [handlePolicies('jwt', ['ADMIN'])], createProductController);
 
 // This endpoint updates the given properties of a product.
-router.put('/:pid', isValidMongoId('pid'), updateProductController);
+router.put('/:pid', [handlePolicies('jwt', ['ADMIN']), isValidMongoId('pid')], updateProductController);
 
 // This endpoint deletes a product from the DB.  
-router.delete('/:pid', isValidMongoId('pid'), deleteProductController);
+router.delete('/:pid', [handlePolicies('jwt', ['ADMIN']), isValidMongoId('pid')], deleteProductController);
 
 export default router;
 
