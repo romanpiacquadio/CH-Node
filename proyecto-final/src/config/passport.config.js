@@ -5,6 +5,7 @@ import { userModel } from '../dao/mongo/models/user.schema.js';
 import GithubStrategy from 'passport-github2';
 import jwt from 'passport-jwt';
 import { GITHUB_CLIENT_ID, GITHUB_SECRET_KEY, BASE_URL, SECRET_JWT } from './config.js';
+import { cartsService } from '../repositories/index.js';
 
 const LocalStrategy = local.Strategy;
 
@@ -71,6 +72,9 @@ const initializePassport = () => {
         console.log("User already exists");
         return done(null, false);
       }
+
+      let cart = await cartsService.createCart();
+
       const newUser = {
         first_name,
         last_name,
@@ -78,7 +82,9 @@ const initializePassport = () => {
         age,
         password,
         role,
+        cartId: cart.cart._id
       }
+
       let result = await userModel.create(newUser);
       //req.session.user = {...result};
       return done(null, result);
