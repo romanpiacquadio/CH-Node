@@ -5,7 +5,7 @@
   </h1>
 
 <div class="header">
-  <p>Hello, {{user._doc.first_name}}</p>
+  <p>Hello, {{user.user.name}}</p>
   <form action="/api/session/logout" method="get">
     <button type="submit">Log Out</button>
   </form>
@@ -21,7 +21,7 @@
     <p>{{this.code}}</p>
     <h6>${{this.price}}</h6>
     <p>{{this.description}}</p>
-    <form action="/api/carts/64a7f88195be301922988202/product/{{this._id}}" method="post">
+    <form id="addToCartForm" action="/api/carts/{{../user.user.cartId}}/product/{{this._id}}" method="post">
       <div class="units-wrapper">
         <label for="quantity">Units</label>
         <input type="number" name="quantity" id="quantity" min="0"/>
@@ -32,6 +32,33 @@
   </div>
 {{/each}}
 </div>
+
+<script>
+  document.getElementById("addToCartForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const quantity = form.querySelector("#quantity").value;
+
+    const token = "{{userToken}}"; // Reemplaza con tu token JWT
+    console.log({token})
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({ quantity: quantity })
+    };
+
+    try {
+      const response = await fetch(form.action, requestOptions);
+      // Manejar la respuesta como desees
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  });
+</script>
 
 <footer class="footer-pagination">
   {{#if products.hasPrevPage}}

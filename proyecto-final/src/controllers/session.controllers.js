@@ -3,21 +3,20 @@ import { generateJWT } from "../helpers/jwt.js";
 import { isPasswordValid } from "../helpers/encrypt.js";
 
 export const logout = async (req, res) => {
-  req.session.destroy((err) => {
-    if (!err) return res.redirect("/login");
-    return res.send({message: "Logout Error", body: err})
-  })
+  res.cookie('token', null, { httpOnly: true, sameSite: 'strict', expires: new Date(0) });
+
+  res.redirect("/login"); // Cambia "/login" a la URL adecuada
 }
 
 export const login = async (req, res) => {    
   try {
     const { email, password } = req.body;
     const findUser = await userModel.findOne({ email });
-    
+
     if(!findUser) {
       return res.status(401).send({ message: `Invalid credentials`})
     }
-
+    
     const passwordValid = isPasswordValid(password, findUser.password);
     if(!passwordValid) {
       return res.status(401).send({ message: `Invalid credentials`})
@@ -25,13 +24,17 @@ export const login = async (req, res) => {
 
     const signUser = {
       email,
+      name: findUser.first_name,
       role: findUser.role,
       id: findUser._id,
+      cartId: findUser.cartId,
     };
 
     const token = await generateJWT({ ...signUser });
-
-    return res.send({ message: `Welcome ${findUser.first_name}`, token });
+    res.cookie('token', token, { httpOnly: true, sameSite: 'strict' });
+    // Devolver el token en la respuesta
+    res.redirect("/products");
+    //res.send({msg: 'Login succesful', token});
 
   } catch (error) {
     console.log(error);
@@ -51,14 +54,19 @@ export const failRegister = (req, res) => {
   res.send({error: "Failed"});
 };
 
-export const githubCallback = (req, res) => {
+export const githubCallback = async (req, res) => {
   if(!req.user) return res.status(400).send({status: "error", error: "Invalid credentials"})
-  req.session.user = {
-    first_name: req.user.first_name,
-    last_name: req.user.last_name,
-    age: req.user.age,
+  const user = {
     email: req.user.email,
+    name: req.user.first_name,
+    role: req.user.role,
+    id: req.user._id,
+    cartId: req.user.cartId,
   }
+
+  const token = await generateJWT({ ...user });
+  res.cookie('token', token, { httpOnly: true, sameSite: 'strict' });
+
   res.redirect("/products")
 }
 

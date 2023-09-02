@@ -1,5 +1,6 @@
 import { io } from '../index.js'
 import { productsService } from '../repositories/index.js';
+import { generateProducts } from '../utils.js';
 
 export const getAllProducts = async (req, res) => {
   /// /api/products?limit=5&page=2&order=asc&query=
@@ -132,4 +133,11 @@ export const deleteProduct = async (req, res) => {
     res.status(500).send({error: error.message});
     
   }
+}
+
+export const mockingProduct = (req, res) => {
+  
+  console.log('mocked');
+  const mockedProducts = generateProducts();
+  res.send(mockedProducts)
 }

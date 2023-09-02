@@ -1,6 +1,7 @@
 import passport from "passport";
 
-export function handlePolicies(strategy, policies) {
+export function 
+handlePolicies(strategy, policies) {
   return (req, res, next) => {
     if(policies.length === 1 & policies[0] === 'PUBLIC') {
       return next();

@@ -9,6 +9,7 @@ import {
   register as registerView,
 } from '../controllers/view.controllers.js';
 import { handlePolicies } from '../middlewares/handle-policies.middleware.js';
+import passport from 'passport';
 
 const router = new Router();
 

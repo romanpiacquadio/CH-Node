@@ -6,13 +6,18 @@ import {
   createProduct as createProductController,
   updateProduct as updateProductController,
   deleteProduct as deleteProductController,
+  mockingProduct as mockingProductController,
 } from '../controllers/product.controllers.js';
 import { handlePolicies } from '../middlewares/handle-policies.middleware.js';
+
 
 const router = Router();
 
 // This endpoint sends the full list of products to the client.
 router.get('/', getAllProductsController);
+
+// This endpoint returns a list of mocked products
+router.get('/mockingproducts', mockingProductController);
 
 // This endpoint responds with the information of a sigle product.
 router.get('/:pid', isValidMongoId('pid'), getOneProductController);
@@ -25,6 +30,7 @@ router.put('/:pid', [handlePolicies('jwt', ['ADMIN']), isValidMongoId('pid')], u
 
 // This endpoint deletes a product from the DB.  
 router.delete('/:pid', [handlePolicies('jwt', ['ADMIN']), isValidMongoId('pid')], deleteProductController);
+
 
 export default router;
 
