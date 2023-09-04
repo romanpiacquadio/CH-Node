@@ -37,7 +37,7 @@ export const login = async (req, res) => {
     //res.send({msg: 'Login succesful', token});
 
   } catch (error) {
-    console.log(error);
+    req.logger.error(error);
   }
 };
 
@@ -50,7 +50,7 @@ export const register = (req, res) => {
 };
 
 export const failRegister = (req, res) => {
-  console.log("Failed register");
+  req.logger.error("Failed register");
   res.send({error: "Failed"});
 };
 

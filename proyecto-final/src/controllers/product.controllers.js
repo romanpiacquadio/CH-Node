@@ -1,6 +1,9 @@
 import { io } from '../index.js'
 import { productsService } from '../repositories/index.js';
 import { generateProducts } from '../utils.js';
+import { EnumErrors, HttpResponse } from '../middlewares/error-handler.js';
+
+const httpResponse = new HttpResponse();
 
 export const getAllProducts = async (req, res) => {
   /// /api/products?limit=5&page=2&order=asc&query=
@@ -28,12 +31,12 @@ export const getAllProducts = async (req, res) => {
 
   try {
     const paginatedProducts = await productsService.getProducts(filter, options);
-    res.send(paginatedProducts);
-
+    // res.send(paginatedProducts);
+    httpResponse.OK(res, 'OK', paginatedProducts);
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ error: error.message });
-
+    req.logger.error(error);
+    // res.status(500).send({ error: error.message });
+    httpResponse.Error(res, 'Error while retrieving products', error.message);
   }
 };
 
@@ -42,13 +45,17 @@ export const getOneProduct = async (req, res) => {
 
   try {
     const productFound = await productsService.getProduct(pid); // producto o un null
-    if(!productFound) return res.status(404).send({error: `Unexisting product with ID: ${pid}`});
-    res.send(productFound);
-    
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ error: error.message });
+    if(!productFound) {
+      //return res.status(404).send({error: `Unexisting product with ID: ${pid}`});
+      return httpResponse.BadRequest(res, 'Error while retrieving the product', `Unexisting product with ID: ${pid}`)
+    }
+    // res.send(productFound);
+    httpResponse.OK(res, 'OK', productFound);
 
+  } catch (error) {
+    req.logger.error(error);
+    //res.status(500).send({ error: error.message });
+    httpResponse.Error(res, 'Error while retrieving the product', error.message);
   }
 }
 
@@ -63,7 +70,8 @@ export const createProduct = async (req, res) => {
   } = req.body
 
   if( !title || !description || !code || !price || !stock || !category ) {
-    return res.status(400).send({error: "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory"})
+    // return res.status(400).send({error: "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory"})
+    return httpResponse.BadRequest(res, 'Error while creating product', "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory");
   }
 
   try {
@@ -91,9 +99,9 @@ export const createProduct = async (req, res) => {
     res.send(newProductStatus);
 
   } catch (error) {
-    console.log(error);
-    res.status(500).send({error: error.message});
-
+    req.logger.error(error);
+    // res.status(500).send({error: error.message});
+    httpResponse.Error(res, 'Error while creating product', error.message);
   }
 }
 
@@ -105,15 +113,18 @@ export const updateProduct = async (req, res) => {
     const resp = await productsService.updateProduct(pid, newProductData);
     
     if(resp.msg.includes('Unexisting product')){
-      res.status(404).send(resp);
+      // res.status(404).send(resp);
+      httpResponse.Error(res, 'Error while updating the product', resp);
 
     } else {
-      res.send(resp);
+      //res.send(resp);
+      httpResponse.OK(res, 'OK', resp);
     }
     
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ error: error.message });
+    req.logger.error(error);
+    // res.status(500).send({ error: error.message });
+    httpResponse.Error(res, 'Error while updating the product', error.message);
 
   }
 };
@@ -124,20 +135,23 @@ export const deleteProduct = async (req, res) => {
   try {
     const resp = await productsService.deleteProduct(pid);
 
-    if(!resp) return res.status(404).send({error: 'Invalid product ID'});
+    if(!resp) {
+      // return res.status(404).send({error: 'Invalid product ID'});
+      return httpResponse.BadRequest(res, 'Error while deleting Product', 'Invalid product ID')
+    }
 
-    res.send(resp)
+    // res.send(resp)
+    httpResponse.OK(res, 'OK', resp);
     
   } catch (error) {
-    console.log(error);
-    res.status(500).send({error: error.message});
-    
+    req.logger.error(error);
+    //res.status(500).send({error: error.message});
+    httpResponse.Error(res, 'Error while deleting the product', error.message);
   }
 }
 
 export const mockingProduct = (req, res) => {
-  
-  console.log('mocked');
   const mockedProducts = generateProducts();
-  res.send(mockedProducts)
+  // res.send(mockedProducts);
+  httpResponse.OK(res, 'OK', mockedProducts);
 }

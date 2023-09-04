@@ -14,6 +14,7 @@ import session from 'express-session';
 import mongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+import { setLogger } from './helpers/logger.js';
 
 const app = express();
 
@@ -44,10 +45,21 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
+app.use(setLogger)
+
 app.use('/', viewsRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
+app.use('/loggertest', (req, res) => {
+  try {
+    throw new Error('This error should be logged by winston')
+  } catch (error) {
+    req.logger.error(error.message)
+  } finally {
+    res.send("¡Hola mundo ERROR!");
+  }
+});
 
 const server = app.listen(PORT, () => {
   displayRoutes(app);

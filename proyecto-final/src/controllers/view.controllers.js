@@ -48,7 +48,7 @@ export const products = async (req, res) => {
     })
     
   } catch (error) {
-    console.log(error);
+    req.logger.error(error);
   }
 };
 
@@ -61,7 +61,7 @@ export const cart = async (req, res) => {
     res.render('cart', {cart} )
 
   } catch (error) {
-    console.log(error);
+    req.logger.error(error);
   }
 };
 
