@@ -36,9 +36,8 @@
 <script>
   document.getElementById("addToCartForm").addEventListener("submit", async (event) => {
     event.preventDefault();
-
     const form = event.target;
-    const quantity = form.querySelector("#quantity").value;
+    const quantity = Number(form.querySelector("#quantity").value);
 
     const token = "{{userToken}}"; // Reemplaza con tu token JWT
     console.log({token})
@@ -53,7 +52,8 @@
 
     try {
       const response = await fetch(form.action, requestOptions);
-      // Manejar la respuesta como desees
+      form.querySelector("#quantity").value = ""
+      console.log(response);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -61,10 +61,10 @@
 </script>
 
 <footer class="footer-pagination">
-  {{#if products.hasPrevPage}}
+  {{#if products.data.hasPrevPage}}
     <div class="prev-page">
-      <p>Pagina previa {{products.prevPage}}</p>
-      <a href="{{products.prevLink}}">
+      <p>Pagina previa {{products.data.prevPage}}</p>
+      <a href="{{products.data.prevLink}}">
         <button class="centered-button"> 
           Anterior
         </button>
@@ -73,14 +73,14 @@
   {{/if}}
 
   <div class="current-page">
-      <p>Pagina actual {{products.page}}</p>
+      <p>Pagina actual {{products.data.page}}</p>
   </div>
 
 
-  {{#if products.hasNextPage}}
+  {{#if products.data.hasNextPage}}
     <div class="next-page">
-      <p>Pagina siguiente {{products.nextPage}}</p>
-      <a href="{{products.nextLink}}">
+      <p>Pagina siguiente {{products.data.nextPage}}</p>
+      <a href="{{products.data.nextLink}}">
         <button class="centered-button">
           Siguiente
         </button>
