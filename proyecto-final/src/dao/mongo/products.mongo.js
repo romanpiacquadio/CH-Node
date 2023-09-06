@@ -1,4 +1,4 @@
-import { productsModel } from "../models/product.schema.js";
+import { productsModel } from "../mongo/models/product.schema.js";
 import { generateUrlLink } from "../../helpers/generateUrlLink.js";
 
 

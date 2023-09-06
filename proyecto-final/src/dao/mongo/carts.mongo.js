@@ -1,5 +1,7 @@
-import { cartsModel } from "../models/cart.schema.js";
-import productManager from "./products.manager.js"
+import { cartsModel } from "../mongo/models/cart.schema.js";
+import { userModel } from "./models/user.schema.js";
+import productManager from "./products.mongo.js"
+import ticketManager from "./tickets.mongo.js"
 
 class CartManager {
 
@@ -153,6 +155,65 @@ class CartManager {
     } catch (error) {
       console.log(error);
       throw new Error('Error while emptying cart')
+    }
+  }
+
+  async purchase(cid) {
+    try {
+      // Corroboro la existencia del cart
+      const cart = await this.getCart(cid);
+      if (!cart) return {msg: 'Cart not found'}
+
+      // creo variables para almacenar productos cuyo stock es mejor a la compra, y otra para el monto total de la compra
+      const outOfStock = [];
+      let purchaseAmount = 0;
+
+      // Itero sobre los productos del cart. 
+      // Si tiene existencia suficiente: lo sumo al monto total de la compa, actualizo la existencia, y lo elimino del carrito.
+      // Si no tiene existencia suficiente agrego al producto al arreglo de "outOfStock"
+      for (const element of cart.products) {
+        if ( element.product.stock > element.quantity ) {
+          purchaseAmount += element.quantity * element.product.price
+          await productManager.updateProduct(element.product._id, {
+            stock: element.product.stock - element.quantity
+          })
+          await this.deleteProductFromCart(cid, element.product._id)
+        } else {
+          outOfStock.push(element.product.title)
+        }
+      }
+
+      // Si ningun producto tenia stock
+      if(outOfStock.length > 0 && purchaseAmount === 0) {
+        return {
+          message: 'Selected products are out of stock.'
+        }
+      }
+
+      // Corroboro el id del usuario que es dueño de ese cart
+      const userWithCart = await userModel.findOne({ cartId: cid });
+      
+      // Creo un ticket pasandole el email del usuario dueño del carrito, y el monto total de la compra.
+      // (El id carrito se le asigna al usuario cuando el mismo se registra). Relacion 1 a 1 entre cart y usuario.
+      const ticket = await ticketManager.createTicket(userWithCart.email, purchaseAmount)
+
+      // Si algunos productos no tenian stock
+      if(outOfStock.length > 0 && purchaseAmount > 0) {
+        return {
+          message: 'Purchase submitted. The following products are out of stock.',
+          outOfStock,
+          ticket,
+        }
+      }
+
+      // Si todos los productos tenian stock
+      return {
+        message: 'Purchase submitted',
+        ticket,
+      }
+      
+    } catch (error) {
+      throw new Error('Error while finishing purchase')
     }
   }
 }

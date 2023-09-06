@@ -1,5 +1,8 @@
+import passport from 'passport';
 import { BASE_URL } from '../config/config.js';
 import axios from 'axios';
+import { SECRET_JWT } from '../config/config.js';
+import jwt from 'jsonwebtoken';
 
 
 export const index = (req, res) => {
@@ -16,8 +19,18 @@ export const chat = (req, res) => {
 
 export const products = async (req, res) => {
   const { limit, page, sort, query } = req.query;
-  const user = req.session.user
   let url = `${BASE_URL}/api/products?`;
+
+  const userToken = req.cookies?.token
+  let user;
+
+  if (userToken) {
+    try {
+      user = jwt.verify(userToken, SECRET_JWT);
+    } catch (error) {
+      console.error("Error al verificar el token:", error);
+    }
+  }
 
   if (limit) {url += `&limit=${limit}`}
   if (page) {url += `&page=${page}`}
@@ -30,11 +43,12 @@ export const products = async (req, res) => {
     res.render('products',  {
       products: products.data, 
       user,
+      userToken,
       stylesheet:"/css/products.css"
     })
     
   } catch (error) {
-    console.log(error);
+    req.logger.error(error);
   }
 };
 
@@ -47,7 +61,7 @@ export const cart = async (req, res) => {
     res.render('cart', {cart} )
 
   } catch (error) {
-    console.log(error);
+    req.logger.error(error);
   }
 };
 

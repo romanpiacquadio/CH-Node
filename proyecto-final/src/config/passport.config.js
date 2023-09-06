@@ -1,10 +1,11 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { userModel } from '../dao/models/user.schema.js';
+import { userModel } from '../dao/mongo/models/user.schema.js';
 //import { isPasswordValid } from '../helpers/encrypt.js';
 import GithubStrategy from 'passport-github2';
 import jwt from 'passport-jwt';
 import { GITHUB_CLIENT_ID, GITHUB_SECRET_KEY, BASE_URL, SECRET_JWT } from './config.js';
+import { cartsService } from '../repositories/index.js';
 
 const LocalStrategy = local.Strategy;
 
@@ -16,11 +17,10 @@ const initializePassport = () => {
     "jwt", 
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // extrae del header Authorization: Bearer atokenaskjehbdkajdhkahdka
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // extrae del header Authorization: Bearer token
         secretOrKey: SECRET_JWT,
       },
       async (jwtPayload, done) => {
-        console.log({jwtPayload});
         try {
           return done(null, jwtPayload);
         } catch (error) {
@@ -37,21 +37,28 @@ const initializePassport = () => {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_SECRET_KEY,
         callbackURL: `${BASE_URL}/api/session/github/callback`,
+        scope: ['user:email']
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          console.log(profile);
-          let user = await userModel.findOne({ email: profile._json.email });
-  
-          if(!user) {
-            let newUser = {
+          
+          let user = await userModel.findOne({ email: profile.emails[0].value });
+          
+          if (!user) {
+            let cart = await cartsService.createCart();
+
+            let addNewUser = {
               first_name: profile._json.name,
-              email: profile._json.email,
-              password: '',
+              last_name: "",
+              email: profile.emails[0].value,
+              age: 0,
+              password: "",
+              cartId: cart.cart._id,
             };
-            let result = await userModel.create(newUser);
-            done(null, result);
-  
+            
+            let newUser = await userModel.create(addNewUser);
+            
+            done(null, newUser);
           } else {
             done(null, user);
           }
@@ -71,6 +78,9 @@ const initializePassport = () => {
         console.log("User already exists");
         return done(null, false);
       }
+
+      let cart = await cartsService.createCart();
+
       const newUser = {
         first_name,
         last_name,
@@ -78,7 +88,9 @@ const initializePassport = () => {
         age,
         password,
         role,
+        cartId: cart.cart._id
       }
+
       let result = await userModel.create(newUser);
       //req.session.user = {...result};
       return done(null, result);

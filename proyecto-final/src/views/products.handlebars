@@ -5,7 +5,7 @@
   </h1>
 
 <div class="header">
-  <p>Hello, {{user._doc.first_name}}</p>
+  <p>Hello, {{user.user.name}}</p>
   <form action="/api/session/logout" method="get">
     <button type="submit">Log Out</button>
   </form>
@@ -14,14 +14,14 @@
 
 
 <div class="gallery">
-{{#each products.payload}}
+{{#each products.data.payload}}
   <div class="card">
     <img src={{this.thumbnails}} alt="photo">
     <h3>{{this.title}}</h3>
     <p>{{this.code}}</p>
     <h6>${{this.price}}</h6>
     <p>{{this.description}}</p>
-    <form action="/api/carts/64a7f88195be301922988202/product/{{this._id}}" method="post">
+    <form id="addToCartForm" action="/api/carts/{{../user.user.cartId}}/product/{{this._id}}" method="post">
       <div class="units-wrapper">
         <label for="quantity">Units</label>
         <input type="number" name="quantity" id="quantity" min="0"/>
@@ -33,11 +33,38 @@
 {{/each}}
 </div>
 
+<script>
+  document.getElementById("addToCartForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const quantity = Number(form.querySelector("#quantity").value);
+
+    const token = "{{userToken}}"; // Reemplaza con tu token JWT
+    console.log({token})
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({ quantity: quantity })
+    };
+
+    try {
+      const response = await fetch(form.action, requestOptions);
+      form.querySelector("#quantity").value = ""
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  });
+</script>
+
 <footer class="footer-pagination">
-  {{#if products.hasPrevPage}}
+  {{#if products.data.hasPrevPage}}
     <div class="prev-page">
-      <p>Pagina previa {{products.prevPage}}</p>
-      <a href="{{products.prevLink}}">
+      <p>Pagina previa {{products.data.prevPage}}</p>
+      <a href="{{products.data.prevLink}}">
         <button class="centered-button"> 
           Anterior
         </button>
@@ -46,14 +73,14 @@
   {{/if}}
 
   <div class="current-page">
-      <p>Pagina actual {{products.page}}</p>
+      <p>Pagina actual {{products.data.page}}</p>
   </div>
 
 
-  {{#if products.hasNextPage}}
+  {{#if products.data.hasNextPage}}
     <div class="next-page">
-      <p>Pagina siguiente {{products.nextPage}}</p>
-      <a href="{{products.nextLink}}">
+      <p>Pagina siguiente {{products.data.nextPage}}</p>
+      <a href="{{products.data.nextLink}}">
         <button class="centered-button">
           Siguiente
         </button>

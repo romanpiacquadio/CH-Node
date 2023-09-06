@@ -8,6 +8,8 @@ import {
   login as loginView,
   register as registerView,
 } from '../controllers/view.controllers.js';
+import { handlePolicies } from '../middlewares/handle-policies.middleware.js';
+import passport from 'passport';
 
 const router = new Router();
 
@@ -16,7 +18,7 @@ router.get('/', indexView);
 
 router.get('/realtimeproducts', realTimeProductsView);
 
-router.get('/chat', chatView);
+router.get('/chat', handlePolicies('jwt', ['USER']), chatView);
 
 router.get('/products', productsView);
 
