@@ -17,7 +17,7 @@ export const generateProducts = () => {
       status: faker.datatype.boolean(),
       stock: faker.number.int(1000),
       category: faker.commerce.department(),
-      thumbnails: faker.helpers.arrayElement([faker.internet.avatar()]),
+      thumbnails: [faker.internet.avatar()],
     })
   }
 

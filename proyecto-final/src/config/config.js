@@ -14,5 +14,7 @@ export const {
   GITHUB_CLIENT_ID,
   GITHUB_SECRET_KEY,
   SECRET_JWT,
-  PERSISTENCE
+  PERSISTENCE,
+  EMAIL,
+  PWD_EMAIL,
 } = process.env

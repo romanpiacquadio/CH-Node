@@ -36,6 +36,10 @@ const productsSchema = new mongoose.Schema({
   thumbnails: {
     type: Array,
   },
+  owner: {
+    type: String, // Almacena el correo electrónico del propietario
+    default: 'admin', // Valor predeterminado 'admin'
+  }
 });
 
 productsSchema.plugin(mongoosePaginate);

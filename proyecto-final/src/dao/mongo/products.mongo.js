@@ -49,7 +49,7 @@ class ProductManager {
   }
 
   // This method creates a new Product and presists it into the DB
-  async createProduct(data){
+  async createProduct(data, owner){
     try {
       // Check if product already exists
       const productExists = await productsModel.findOne({
@@ -58,7 +58,10 @@ class ProductManager {
 
       if(productExists) return {msg: 'Product code already exists'}
 
-      const newProduct = await productsModel.create(data)
+      const newProduct = await productsModel.create({
+        ...data,
+        owner,
+      })
       
       return {msg: 'Product added', newProduct};
       
