@@ -1,41 +1,44 @@
-<div>
-  <h1>Log In</h1>
+<div style="max-width: 300px; margin: 0 auto; text-align: center;">
+  <h1 style="font-size: 24px; margin-bottom: 20px;">Log In</h1>
 
-  <div>
+  <div style="text-align: left;">
     <form action="/api/session/login" method="post">
-      <label for="email">Email</label><br />
+      <label for="email" style="font-size: 16px;">Email</label><br />
       <input
         type="email"
         name="email"
         id="email"
-        placeholder="type your email"
+        placeholder="Type your email"
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
       />
       <br />
-      <label for="password">Password</label>
+      <label for="password" style="font-size: 16px;">Password</label>
       <br />
       <input
         type="password"
         name="password"
         id="password"
-        placeholder="type your password"
+        placeholder="Type your password"
         required
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
       />
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
     </form>
   </div>
   
   <br />
-  <a href="/reset-password">Forgot your Password?</a>
+  <a href="/reset-password" style="font-size: 14px; color: #007bff; text-decoration: none;">Forgot your Password?</a>
   <br />
   
   <br />
-  <a href="/register">Create an Account</a>
+  <a href="/register" style="font-size: 14px; color: #007bff; text-decoration: none;">Create an Account</a>
   <br />
   
   <div>
     <br />
-    <a href="/api/session/github"><button type="submit">Access with GitHub</button></a>
+    <a href="/api/session/github" style="text-decoration: none;">
+      <button type="submit" style="background-color: #333; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Access with GitHub</button>
+    </a>
   </div>
-
 </div>

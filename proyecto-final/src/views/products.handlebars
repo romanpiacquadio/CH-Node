@@ -1,63 +1,58 @@
 <link rel="stylesheet" type="text/css" href="/css/products.css">
 
-  <h1 id="index" class="products-title">
-    Buy a product and get it TODAY!
-  </h1>
+<h1 id="index" class="products-title">
+  Buy a product and get it TODAY!
+</h1>
 
 <div class="header">
-  <p>Hello, {{user.user.name}}</p>
+  <p style="font-size: 18px; font-weight: bold; color: #333;">Hello, {{user.user.name}}</p>
   <form action="/api/session/logout" method="get">
-    <button type="submit">Log Out</button>
+    <button type="submit" style="background-color: #ff5733; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Log Out</button>
   </form>
 </div>
 
-
-
 <div class="gallery">
-{{#each products.data.payload}}
-  <div class="card">
-    <img src={{this.thumbnails}} alt="photo">
-    <h3>{{this.title}}</h3>
-    <p>{{this.code}}</p>
-    <h6>${{this.price}}</h6>
-    <p>{{this.description}}</p>
-    <form id="addToCartForm" action="/api/carts/{{../user.user.cartId}}/product/{{this._id}}" method="post">
-      <div class="units-wrapper">
-        <label for="quantity">Units</label>
-        <input type="number" name="quantity" id="quantity" min="0"/>
-      </div>
-      <button type="submit" class="buy">Add to Cart</button>
-      </a>
-    </form>
-  </div>
-{{/each}}
+  {{#each products.data.payload}}
+    <div class="card">
+      <img src={{this.thumbnails}} alt="photo" style="max-width: 100%; height: auto;">
+      <h3 style="font-size: 20px; margin-top: 10px; color: #333;">{{this.title}}</h3>
+      <p style="font-size: 16px; color: #555;">{{this.code}}</p>
+      <h6 style="font-size: 18px; font-weight: bold; color: #ff5733;">${{this.price}}</h6>
+      <p style="font-size: 16px; color: #777;">{{this.description}}</p>
+      <button onclick="agregar(this.id)" id="{{this._id}}" class="buy" style="background-color: #ff5733; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">ADD</button>
+    </div>
+  {{/each}}
 </div>
 
 <script>
-  document.getElementById("addToCartForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const quantity = Number(form.querySelector("#quantity").value);
+  const agregar = async (prodID) => {
+    const token = "{{userToken}}"
+    const cardID = "{{user.user.cartId}}"
 
-    const token = "{{userToken}}"; // Reemplaza con tu token JWT
-    console.log({token})
     const headers = new Headers();
+
     headers.append("Authorization", `Bearer ${token}`);
 
     const requestOptions = {
       method: "POST",
       headers: headers,
-      body: JSON.stringify({ quantity: quantity })
     };
 
     try {
-      const response = await fetch(form.action, requestOptions);
-      form.querySelector("#quantity").value = ""
-      console.log(response);
+      const response = await fetch(`/api/carts/${cardID}/product/${prodID}`, requestOptions);
+      const data = await response.json();
+      if (data.status === 200) {
+        // Product added successfully, show an alert
+        alert("Product has been added to your cart!");
+      } else {
+        alert("Failed to add the product. Please try again later.");
+      }
+
     } catch (error) {
       console.error("Error:", error);
+      alert("An error occurred while adding the product.");
     }
-  });
+  }
 </script>
 
 <footer class="footer-pagination">
@@ -65,29 +60,19 @@
     <div class="prev-page">
       <p>Pagina previa {{products.data.prevPage}}</p>
       <a href="{{products.data.prevLink}}">
-        <button class="centered-button"> 
-          Anterior
-        </button>
+        <button class="centered-button" style="background-color: #333; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Anterior</button>
       </a>
     </div>
   {{/if}}
-
   <div class="current-page">
-      <p>Pagina actual {{products.data.page}}</p>
+    <p>Pagina actual {{products.data.page}}</p>
   </div>
-
-
   {{#if products.data.hasNextPage}}
     <div class="next-page">
       <p>Pagina siguiente {{products.data.nextPage}}</p>
       <a href="{{products.data.nextLink}}">
-        <button class="centered-button">
-          Siguiente
-        </button>
+        <button class="centered-button" style="background-color: #333; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Siguiente</button>
       </a>
     </div>
   {{/if}}
-
 </footer>
-  
-
