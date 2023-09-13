@@ -16,6 +16,32 @@ paths:
       parameters:
         body:
           "title"
+      requestBody:
+        description: Product details to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: number
+                status:
+                  type: boolean
+                stock:
+                  type: integer
+                category:
+                  type: string
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
       responses:
         "200":
           description: Product created.
@@ -23,6 +49,14 @@ paths:
           description: Error client side.
         "500":
           description: Error server side.
+  /api/products/mockingproducts:
+    get:
+      summary: This endpoint returns a list of 100 mocked products.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Mock created.
   /api/products/{pid}:
     get:
       summary: This endpoint retrieves the information of a product.
@@ -53,6 +87,32 @@ paths:
             type: string
           required: true
           description: (Mongo ID) Is the unique ID for the product.
+      requestBody:
+        description: Product details to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: number
+                status:
+                  type: boolean
+                stock:
+                  type: integer
+                category:
+                  type: string
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
       responses:
         "200":
           description: Product is updated.
@@ -82,11 +142,3 @@ paths:
           description: Error client side. Unexisting product.
         "500":
           description: Error server side.
-  /api/products/mockingproducts:
-    get:
-      summary: This endpoint returns a list of mocked products
-      tags:
-        - Products
-      responses:
-        "200":
-          description: Mock created.
