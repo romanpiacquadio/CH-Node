@@ -1,0 +1,25 @@
+paths:
+  /api/products/:
+    get:
+      summary: This endpoint sends the full list of products to the client.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Gets the full list of products.
+        "500":
+          description: Error server side
+    post:
+      summary: This endpoint creates a product with information provided by the client and saves it into the DB.
+      tags:
+        - Products
+      parameters:
+        body:
+          "title"
+      responses:
+        "200":
+          description: Product created.
+        "404":
+          description: Error client side.
+        "500":
+          description: Error server side
