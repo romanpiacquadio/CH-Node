@@ -1,54 +1,57 @@
-<div>
-  <h1>SIGN UP</h1>
+<div style="max-width: 300px; margin: 0 auto; text-align: center;">
+  <h1 style="font-size: 24px; margin-bottom: 20px;">Sign Up</h1>
 
-  <div>
+  <div style="text-align: left;">
     <form action="/api/session/register" method="post">
-      <label for="nombre-cliente">First Name</label><br />
+      <label for="first_name" style="font-size: 16px;">First Name</label><br />
       <input
         type="text"
         name="first_name"
         id="first_name"
-        placeholder="type your name"
+        placeholder="Type your name"
         required
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
       /><br />
-      <label for="last_name">Last Name</label><br />
+      <label for="last_name" style="font-size: 16px;">Last Name</label><br />
       <input
         type="text"
         name="last_name"
         id="last_name"
-        placeholder="type your last name"
+        placeholder="Type your last name"
         required
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
       /><br />
-      <label for="email">Email</label><br />
+      <label for="email" style="font-size: 16px;">Email</label><br />
       <input
         type="email"
         name="email"
         id="email"
-        placeholder="type your email"
+        placeholder="Type your email"
         required
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
       />
       <br />
-      <label for="age">Age</label><br />
+      <label for="age" style="font-size: 16px;">Age</label><br />
       <input
         type="number"
         name="age"
         id="age"
-        placeholder="type your age"
+        placeholder="Type your age"
         min="0"
         required
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
       />
       <br />
-      <label for="password">Password</label><br />
+      <label for="password" style="font-size: 16px;">Password</label><br />
       <input
         type="password"
         name="password"
         id="password"
-        placeholder="type your password"
+        placeholder="Type your password"
         required
-      />
-      <br />
-      <button type="submit">submit</button>
+        style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"
+      /><br />
+      <button type="submit" style="background-color: #007bff; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
     </form>
   </div>
-
 </div>

@@ -10,6 +10,8 @@ import {
   failRegister as failRegisterController,
   githubCallback as githubCallbackController,
   current as currentController,
+  forgotPassword as forgotPasswordController,
+  newPassword as newPasswordController,
 } from "../controllers/session.controllers.js";
 
 
@@ -30,6 +32,10 @@ router.get("/github", passport.authenticate('github', { scope: [ 'user:email' ] 
 router.get("/github/callback", passport.authenticate('github', {failureRedirect:'/api/session/login'}), githubCallbackController);
 
 router.get("/current", handlePolicies('jwt', ["ADMIN"]), currentController);
+
+router.post("/forgot-password", forgotPasswordController);
+
+router.route("/set-new-password/:token").post(newPasswordController);
 
 export default router;
 

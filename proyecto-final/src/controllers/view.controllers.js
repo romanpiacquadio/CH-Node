@@ -72,3 +72,14 @@ export const login = (req, res) => {
 export const register = (req, res) => {
   res.render("register");
 };
+
+export const resetPwd = (req, res) => {
+  res.render("resetPassword");
+}
+
+export const setNewPwd = (req, res) => {
+  const { token } = req.params
+  res.render("setNewPassword", {
+    token
+  });
+}

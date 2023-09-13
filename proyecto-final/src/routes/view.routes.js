@@ -7,9 +7,10 @@ import {
   cart as cartView,
   login as loginView,
   register as registerView,
+  resetPwd as resetPwdView,
+  setNewPwd as setNewPwdView,
 } from '../controllers/view.controllers.js';
 import { handlePolicies } from '../middlewares/handle-policies.middleware.js';
-import passport from 'passport';
 
 const router = new Router();
 
@@ -27,5 +28,9 @@ router.get('/carts/:cid', cartView);
 router.get('/login', loginView);
 
 router.get('/register', registerView);
+
+router.get('/reset-password', resetPwdView);
+
+router.get('/set-new-password/:token', setNewPwdView);
 
 export default router;

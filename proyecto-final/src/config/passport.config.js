@@ -8,16 +8,22 @@ import { GITHUB_CLIENT_ID, GITHUB_SECRET_KEY, BASE_URL, SECRET_JWT } from './con
 import { cartsService } from '../repositories/index.js';
 
 const LocalStrategy = local.Strategy;
-
 const JWTStrategy = jwt.Strategy;
-const ExtractJWT = jwt.ExtractJwt;
+//const ExtractJWT = jwt.ExtractJwt;
 
 const initializePassport = () => {
   passport.use(
     "jwt", 
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // extrae del header Authorization: Bearer token
+        //jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // extrae del header Authorization: Bearer token
+        jwtFromRequest: (req) => {
+          let token = null;
+          if (req && req.cookies) {
+            token = req.cookies.token; // Reemplaza 'tu_cookie_de_token' con el nombre de tu cookie de token
+          }
+          return token;
+        },
         secretOrKey: SECRET_JWT,
       },
       async (jwtPayload, done) => {

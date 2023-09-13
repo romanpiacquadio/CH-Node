@@ -14,8 +14,8 @@ export default class ProductRepository {
     return product;
   }
 
-  async createProduct(data) {
-    let newProduct = await this.dao.createProduct(data);
+  async createProduct(data, owner) {
+    let newProduct = await this.dao.createProduct(data, owner);
     return newProduct;
   }
 

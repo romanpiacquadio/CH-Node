@@ -69,6 +69,8 @@ export const createProduct = async (req, res) => {
     category,
   } = req.body
 
+  const owner = req.user.user.email
+
   if( !title || !description || !code || !price || !stock || !category ) {
     // return res.status(400).send({error: "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory"})
     return httpResponse.BadRequest(res, 'Error while creating product', "Fields 'title', 'description', 'code', 'price', 'stock', 'category' are mandatory");
@@ -90,7 +92,7 @@ export const createProduct = async (req, res) => {
       thumbnails
     }
 
-    const newProductStatus = await productsService.createProduct(productData);
+    const newProductStatus = await productsService.createProduct(productData, owner);
 
     io.emit('updatedProduct', {
       title
@@ -108,18 +110,30 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   const { pid } = req.params;
   const newProductData = req.body;
+  const { email, role } = req.user.user;
 
   try {
-    const resp = await productsService.updateProduct(pid, newProductData);
+    //const resp = await productsService.updateProduct(pid, newProductData);
+    const product = await productsService.getProduct(pid);
     
-    if(resp.msg.includes('Unexisting product')){
-      // res.status(404).send(resp);
-      httpResponse.Error(res, 'Error while updating the product', resp);
-
-    } else {
-      //res.send(resp);
-      httpResponse.OK(res, 'OK', resp);
+    if (!product) {
+      return httpResponse.BadRequest(res, 'Unexisting Product', 'Product not found')
     }
+
+    if (product.owner !== email && role !== 'ADMIN') {
+      return httpResponse.Forbidden(res, 'Unauthorized', 'You are not authorized to update this product')
+    }
+
+    // Actualiza el producto si el email coincide con el owner
+    const resp = await productsService.updateProduct(pid, newProductData);
+
+    // Maneja la respuesta según sea necesario
+    if (resp.msg.includes('Unexisting product')) {
+      return httpResponse.Error(res, 'Error while updating the product', resp);
+    }
+    
+    return httpResponse.OK(res, 'OK', resp);
+     
     
   } catch (error) {
     req.logger.error(error);
@@ -131,8 +145,20 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { pid } = req.params;
+  const { email, role } = req.user.user;
   
   try {
+    //const resp = await productsService.updateProduct(pid, newProductData);
+    const product = await productsService.getProduct(pid);
+    
+    if (!product) {
+      return httpResponse.BadRequest(res, 'Unexisting Product', 'Product not found')
+    }
+
+    if (product.owner !== email && role !== 'ADMIN') {
+      return httpResponse.Forbidden(res, 'Unauthorized', 'You are not authorized to delete this product')
+    }
+    
     const resp = await productsService.deleteProduct(pid);
 
     if(!resp) {
@@ -141,7 +167,7 @@ export const deleteProduct = async (req, res) => {
     }
 
     // res.send(resp)
-    httpResponse.OK(res, 'OK', resp);
+    return httpResponse.OK(res, 'OK', resp);
     
   } catch (error) {
     req.logger.error(error);

@@ -23,13 +23,13 @@ router.get('/mockingproducts', mockingProductController);
 router.get('/:pid', isValidMongoId('pid'), getOneProductController);
 
 //This endpoint creates a product with information provided by the client and saves it into the DB.
-router.post('/', [handlePolicies('jwt', ['ADMIN'])], createProductController);
+router.post('/', [handlePolicies('jwt', ['ADMIN', 'PREMIUM'])], createProductController);
 
 // This endpoint updates the given properties of a product.
-router.put('/:pid', [handlePolicies('jwt', ['ADMIN']), isValidMongoId('pid')], updateProductController);
+router.put('/:pid', [handlePolicies('jwt', ['ADMIN', 'PREMIUM']), isValidMongoId('pid')], updateProductController);
 
 // This endpoint deletes a product from the DB.  
-router.delete('/:pid', [handlePolicies('jwt', ['ADMIN']), isValidMongoId('pid')], deleteProductController);
+router.delete('/:pid', [handlePolicies('jwt', ['ADMIN', 'PREMIUM']), isValidMongoId('pid')], deleteProductController);
 
 
 export default router;
