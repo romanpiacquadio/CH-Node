@@ -1,0 +1,170 @@
+paths:
+  /api/carts/:
+    post:
+      summary: This endpoint creates a new Cart. It is automatically created when a user registers.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Cart Created.
+        "500":
+          description: Error server side.
+  /api/carts/{cid}:
+    get:
+      summary: This endpoint sends to the client the products included in a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+      responses:
+        "200":
+          description: Cart is sent to the client.
+        "404":
+          description: Error client side. Unexisting cart.
+        "500":
+          description: Error server side.
+    put:
+      summary: This endpoint updates the products of a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+      responses:
+        "200":
+          description: Products were Updated.
+        "500":
+          description: Error server side.
+    delete:
+      summary: This endpoint emptyies a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+      responses:
+        "200":
+          description: Cart was emptyed.
+        "500":
+          description: Error server side.
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: This endpoint adds a product to a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the product.
+      requestBody:
+        description: Quantity to be added.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  default: 1
+      responses:
+        "200":
+          description: Product was added to the cart.
+        "404":
+          description: Error client. Product or cart was not found.
+        "500":
+          description: Error server side.
+  /api/carts/{cid}/products/{pid}:
+    put:
+      summary: This endpoint updates a product quantity from a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the product.
+      requestBody:
+        description: Quantity to be added.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+      responses:
+        "200":
+          description: Product quantity was updated.
+        "500":
+          description: Error while updating products quantity.   
+    delete:
+      summary: This endpoint deletes a product from a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the product.
+      responses:
+        "200":
+          description: Product was deleted from the cart.
+        "500":
+          description: Error while deleting the product from the cart.
+  /api/carts/{cid}/purchase/:
+    get:
+      summary: This endpoint creates a ticket for a cart.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the cart.
+      responses:
+        "200":
+          description: Ticket was created.
+        "500":
+          description: Server Error while creating the ticket.
