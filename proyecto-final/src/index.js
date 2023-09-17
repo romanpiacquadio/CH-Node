@@ -15,8 +15,12 @@ import mongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import { setLogger } from './helpers/logger.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { swaggerOpts } from './config/swagger.config.js';
 
 const app = express();
+const specs = swaggerJSDoc(swaggerOpts);
 
 app.use(express.static(`${__dirname}/public`));
 app.use(express.json());
@@ -51,6 +55,7 @@ app.use('/', viewsRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs))
 app.use('/loggertest', (req, res) => {
   try {
     throw new Error('This error should be logged by winston')

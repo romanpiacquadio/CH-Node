@@ -1,5 +1,5 @@
 import { cartsService } from '../repositories/index.js';
-import { EnumErrors, HttpResponse } from '../middlewares/error-handler.js';
+import { HttpResponse } from '../middlewares/error-handler.js';
 
 const httpResponse = new HttpResponse();
 
@@ -42,7 +42,7 @@ export const addProductToCart = async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity = 1} = req.body;
 
-  if(!quantity || !pid || !cid) return res.status(400).send({msg: 'Must provide cartId, ProdId, quantity'})
+  if(!quantity || !pid || !cid) return httpResponse.BadRequest(res, 'Must provide cartId, ProdId, quantity' , '')
 
   try {
     const resp = await cartsService.addProductToCart(cid, pid, Number(quantity));

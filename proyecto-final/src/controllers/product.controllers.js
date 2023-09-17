@@ -98,7 +98,7 @@ export const createProduct = async (req, res) => {
       title
     })
 
-    res.send(newProductStatus);
+    httpResponse.OK(res, 'OK', newProductStatus);
 
   } catch (error) {
     req.logger.error(error);

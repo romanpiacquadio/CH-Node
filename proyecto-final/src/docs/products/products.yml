@@ -1,0 +1,144 @@
+paths:
+  /api/products/:
+    get:
+      summary: This endpoint retrieves the full list of products from the DB and sends it to the client.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Gets the full list of products.
+        "500":
+          description: Error server side
+    post:
+      summary: This endpoint creates a product with information provided by the client and saves it into the DB.
+      tags:
+        - Products
+      parameters:
+        body:
+          "title"
+      requestBody:
+        description: Product details to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: number
+                status:
+                  type: boolean
+                stock:
+                  type: integer
+                category:
+                  type: string
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Product created.
+        "404":
+          description: Error client side.
+        "500":
+          description: Error server side.
+  /api/products/mockingproducts:
+    get:
+      summary: This endpoint returns a list of 100 mocked products.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Mock created.
+  /api/products/{pid}:
+    get:
+      summary: This endpoint retrieves the information of a product.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the product.
+      responses:
+        "200":
+          description: Product is sent to the client.
+        "404":
+          description: Error client side. Unexisting product.
+        "500":
+          description: Error server side.
+    put:
+      summary: This endpoint updates the properties of a product.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the product.
+      requestBody:
+        description: Product details to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: number
+                status:
+                  type: boolean
+                stock:
+                  type: integer
+                category:
+                  type: string
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Product is updated.
+        "403":
+          description: Error client side. The user is not authorized to update the product.
+        "404":
+          description: Error client side. Unexisting product.
+        "500":
+          description: Error server side.
+    delete:
+      summary: This endpoint deletes a product from the DB.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: (Mongo ID) Is the unique ID for the product.
+      responses:
+        "200":
+          description: Product is deleted.
+        "403":
+          description: Error client side. The user is not authorized to delete the product.
+        "404":
+          description: Error client side. Unexisting product.
+        "500":
+          description: Error server side.
